@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using SnitchCommon;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -23,9 +23,10 @@ namespace SnitchGrasshopper.Component.HelpComponent
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager) 
         {
             pManager.AddPointParameter("Points", "Points", "Points", GH_ParamAccess.list);
+            pManager.AddCurveParameter("BoarderPoints", "BoarderPoints", "BoarderPoints", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -46,6 +47,25 @@ namespace SnitchGrasshopper.Component.HelpComponent
             if (!DA.GetDataList(0, pts))
                 return;
 
+            Curve c = null;
+            if (!DA.GetData(1, ref c))
+                return;
+
+            if (!c.TryGetPolyline(out Polyline pl))
+                return;
+
+            PointCloud pcloud = new PointCloud(pts);
+            BoundingBox bb =  pcloud.GetBoundingBox(false);
+
+            List<Point2d> pts2d = new List<Point2d>();
+            foreach (var item in pts)
+            {
+                pts2d.Add(new Point2d(item.X,item.Y));
+            }
+            List<Point2d> bpts2d = new List<Point2d>();
+
+            List<Line> lines = StaticMethods.CreateVoronoi(pts2d, pl, bb);
+            DA.SetDataList(0, lines);
         }
 
         /// <summary>

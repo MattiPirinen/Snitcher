@@ -19,8 +19,22 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
-    <PackageReference Include="TeklaOpenAPI" Version="2021.0.1" />
+    <ProjectReference Include="..\SnitchCommon\SnitchCommon.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="GH_IO">
+      <HintPath>..\..\..\..\..\..\Program Files\Rhino 7\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper">
+      <HintPath>..\..\..\..\..\..\Program Files\Rhino 7\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RhinoCommon">
+      <HintPath>..\..\..\..\..\..\Program Files\Rhino 7\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   
   <ItemGroup>
