@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
+
     public class Beam: BuildingMember_base
     {
         //---------------------- CONSTRUCTORS ------------------------
@@ -19,5 +20,6 @@ namespace SnitchCommon
         public double LoadBearingWidth { get; set; }
 
         //------------------------ METHODS ---------------------------
+        
     }
 }

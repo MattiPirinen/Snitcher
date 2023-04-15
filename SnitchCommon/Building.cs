@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace SnitchCommon
@@ -101,6 +102,5 @@ namespace SnitchCommon
                 throw new NotImplementedException();
             }
         }
-
     }
 }
