@@ -9,13 +9,11 @@
   </PropertyGroup>
 	
   <ItemGroup>
-    <None Remove="Resources\DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model.png" />
-    <None Remove="Resources\DogSniffing.ico" />
+    <None Remove="Resources\DogSniffingImage.png" />
   </ItemGroup>
 	
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DogSniffing.ico" />
-    <EmbeddedResource Include="Resources\DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model.png" />
+    <EmbeddedResource Include="Resources\DogSniffingImage.png" />
   </ItemGroup>
   
   <ItemGroup>
