@@ -81,17 +81,35 @@ namespace SnitchGrasshopper.Component.Model
         {
             if (CollectInputData_buildingObjects(DA) == false) { return; }
             Building = new Building(InputObjects);
-
+            List<PointCloud> pClouds = new List<PointCloud>();
             List<double> floorCoordsZ = new List<double>();
             
+
+
             foreach (var item in Voronois.Branches)
             {
-                
                 item[0].Value.TryGetPolyline(out var polyline);
                 floorCoordsZ.Add(polyline[0].Z);
+                PointCloud pl = new PointCloud();
+                foreach (var item2 in item)
+                {
+                    pl.Add(AreaMassProperties.Compute(item2.Value).Centroid);
+                }
+                pClouds.Add(pl);
             }
             foreach (var column in Building.Columns.Values)
             {
+                Column col = (Column)column;
+                int i = 0;
+                foreach (var item in floorCoordsZ)
+                {
+                    if (Math.Abs(item - col.CenterLine.To.Z) < 1)
+                        break;
+                    i++;
+                }
+                var voronois = Voronois.get_Branch(i);
+                int index = pClouds[i].ClosestPoint(col.CenterLine.To);
+                col.LoadBearingArea = AreaMassProperties.Compute(((GH_Curve)voronois[index]).Value).Area;
             }
 
 
