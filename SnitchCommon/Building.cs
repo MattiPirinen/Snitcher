@@ -12,7 +12,11 @@ namespace SnitchCommon
             AssignProperties();
         }
 
-        //------------------------- FIELDS ---------------------------
+        public Building(List<BuildingMember_base> gh_inputObjs)
+        {
+            AssignProperties();
+            DetectAndPopulateObjects(gh_inputObjs);
+        }
 
         //----------------------- PROPERTIES -------------------------
 
@@ -64,6 +68,38 @@ namespace SnitchCommon
             }
 
             co2_total = co2_concrete + co2_steel;
+        }
+
+        private void DetectAndPopulateObjects(List<BuildingMember_base> gh_inputObjs)
+        {
+            foreach (BuildingMember_base item in gh_inputObjs)
+            {
+                DetectAndPopulateObject(item);
+            }
+        }
+
+        private void DetectAndPopulateObject(BuildingMember_base item)
+        {
+            if(item is Beam beam) 
+            { 
+                this.Beams.Add(beam.Guid, beam); 
+            }
+            else if(item is Column column)
+            {
+                this.Columns.Add(column.Guid, column);
+            }
+            else if(item is Wall wall)
+            {
+                this.Walls.Add(wall.Guid, wall);
+            }
+            else if(item is Slab slab)
+            {
+                this.Slabs.Add(slab.Guid, slab);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
     }
