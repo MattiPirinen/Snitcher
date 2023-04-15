@@ -11,25 +11,31 @@ namespace SnitchCommon
         //---------------------- CONSTRUCTORS ------------------------
         public Building_base()
         {
-
+            AssignProperties();
         }
 
         //------------------------- FIELDS ---------------------------
 
         //----------------------- PROPERTIES -------------------------
 
+        public Guid Guid { get; set; }
 
-        public decimal Volume_concrete_m3 { get; set; }
-        public decimal Volume_steel_m3 { get; set; }
+        public double Volume_concrete_m3 { get; set; }
+        public double Volume_steel_m3 { get; set; }
 
-        public decimal Weight_concrete_N { get; set; }
-        public decimal Weight_steel_N { get; set; }
+        public double Weight_concrete_N { get; set; }
+        public double Weight_steel_N { get; set; }
 
-        public decimal CO2_total { get; set; }
-        public decimal CO2_concrete { get; set; }
-        public decimal CO2_steel { get; set; }
+        public double CO2_total { get; set; }
+        public double CO2_concrete { get; set; }
+        public double CO2_steel { get; set; }
 
         //------------------------ METHODS ---------------------------
+
+        private void AssignProperties()
+        {
+            this.Guid = Guid.NewGuid();
+        }
 
     }
 }

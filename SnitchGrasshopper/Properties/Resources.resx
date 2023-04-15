@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DogSniffingImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DogSniffingImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DogSniffing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DogSniffing.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DogSniffing_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DogSniffing_24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

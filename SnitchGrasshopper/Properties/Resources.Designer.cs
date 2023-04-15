@@ -61,12 +61,22 @@ namespace SnitchGrasshopper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon DogSniffing {
+        internal static System.Drawing.Bitmap DogSniffing_24x24 {
             get {
-                object obj = ResourceManager.GetObject("DogSniffing", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("DogSniffing_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DogSniffingImage {
+            get {
+                object obj = ResourceManager.GetObject("DogSniffingImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

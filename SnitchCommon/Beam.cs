@@ -10,12 +10,13 @@ namespace SnitchCommon
     {
         //---------------------- CONSTRUCTORS ------------------------
 
+
         //------------------------- FIELDS ---------------------------
 
         //----------------------- PROPERTIES -------------------------
 
-        public decimal Length { get; set; }
-        public decimal LoadBearingWidth { get; set; }
+        public double Length { get; set; }
+        public double LoadBearingWidth { get; set; }
 
         //------------------------ METHODS ---------------------------
     }

@@ -1,13 +1,14 @@
 using Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SnitchCommon;
 using SnitchGrasshopper.Properties;
 using System;
 using System.Collections.Generic;
 
 namespace SnitchGrasshopper.Component.Object
 {
-    public class AssembleSnitchBeamComponent : GH_Component
+    public class AssembleSnitchWallComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -16,11 +17,11 @@ namespace SnitchGrasshopper.Component.Object
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public AssembleSnitchBeamComponent()
+        public AssembleSnitchWallComponent()
           : base(
-                "Snitch beam",
-                "Snitch beam",
-                "Assemble a Snitch beam.",
+                "Snitch wall",
+                "Snitch wall",
+                "Assemble a Snitch wall.",
                 "Snitch", 
                 "Object")
         {
@@ -31,12 +32,9 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
             pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Length", "L", "Length", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Steel volume", "SV", "Steel volume", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Volume", "V", "Volume", GH_ParamAccess.item);
+            pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,7 +42,7 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Snitch beam", "SB", "Snitch beam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Snitch wall", "SB", "Snitch wall", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -54,30 +52,17 @@ namespace SnitchGrasshopper.Component.Object
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Mesh mesh = null;
             List<Point3d> points = new List<Point3d>();
-            double length = double.NaN;
-            double concreteVolume = double.NaN;
-            double steelVolume = double.NaN;
-            string concreteClass = string.Empty;
+            double volume = double.NaN;
+            Mesh mesh = null;
 
-            if (!DA.GetData(0, ref mesh)) return;
-            if (!DA.GetDataList(1, points)) return;
-            if (!DA.GetData(2, ref length)) return;
-            if (!DA.GetData(3, ref concreteVolume)) return;
-            if (!DA.GetData(4, ref steelVolume)) return;
-            if (!DA.GetData(5, ref concreteClass)) return;
+            if (!DA.GetDataList(0, points)) return;
+            if (!DA.GetData(1, ref volume)) return;
+            if (!DA.GetData(2, ref mesh)) return;
 
-            SnitchCommon.Beam beam = new SnitchCommon.Beam
-            {
-                Mesh = mesh,
-                Length = length,
-                Volume_concrete_m3 = 0.0,
-                Volume_steel_m3 = 0.0,
-                ConcreteClass = "",
-            };
+            Wall wall = new Wall();
 
-            DA.SetData(0, beam);
+            DA.SetData(0, wall);
         }
 
         /// <summary>
@@ -101,6 +86,6 @@ namespace SnitchGrasshopper.Component.Object
         /// It is vital this Guid doesn't change otherwise old ghx files 
         /// that use the old ID will partially fail during loading.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("f3f05277-b36c-41b3-ab07-65e86ee5cf64");
+        public override Guid ComponentGuid => new Guid("806F30C2-FBB4-4A34-AB42-D59BD4DD8CD4");
     }
 }
