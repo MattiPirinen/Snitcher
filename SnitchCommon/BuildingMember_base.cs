@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
-    public abstract class BuildingObjects
+    public class BuildingMember_base : Building_base
     {
         //---------------------- CONSTRUCTORS ------------------------
 
-        public BuildingObjects()
+        public BuildingMember_base() : base()
         {
 
         }
@@ -20,9 +20,7 @@ namespace SnitchCommon
         //----------------------- PROPERTIES -------------------------
 
         public string ConcreteClass { get; set; }
-        public decimal Volume_conc { get; set; }
-        public decimal Volume_steel { get; set; }
-        public double CO2 { get; set; }
+        
 
         //------------------------ METHODS ---------------------------
 
@@ -31,10 +29,10 @@ namespace SnitchCommon
             return (double)this.Volume_steel * 7850;
         }
 
-        private double Get_CO2()
+        public double Get_CO2()
         {
             double co2_concrete = Get_CO2_concrete();
-            double co2_rebars = Get_CO2_rebars();
+            double co2_rebars = Get_CO2_steel();
 
             return co2_concrete + co2_rebars;
         }
@@ -51,7 +49,7 @@ namespace SnitchCommon
             return kgCo2PerKgConcrete * concreteMass;
         }
 
-        public double Get_CO2_rebars()
+        public override double Get_CO2_steel()
         {
             double steelMass = Get_rebarWeight_kg();
             double kgCo2PerKgSteel = 0.67;
