@@ -81,7 +81,7 @@ namespace SnitchGrasshopper.Component.Object
                 Volume_concrete_m3 = 0.0,
                 Mass_steel_m3 = 0.0,
                 ConcreteClass = "",
-                Load = load,
+                //Load = load,
             };
 
             DA.SetData(0, wall);
