@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
-    internal class Wall
+    public class Wall:BuildingObjects
     {
     }
 }
