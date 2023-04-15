@@ -9,18 +9,19 @@
   </PropertyGroup>
 	
   <ItemGroup>
-    <None Remove="Resources\DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model.png" />
-    <None Remove="Resources\DogSniffing.ico" />
+    <None Remove="Resources\DogSniffingImage.png" />
   </ItemGroup>
 	
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DogSniffing.ico" />
-    <EmbeddedResource Include="Resources\DALL·E 2023-04-14 21.30.52 - a tiny dog sniffing a building 3d model.png" />
+    <EmbeddedResource Include="Resources\DogSniffingImage.png" />
   </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
-    <PackageReference Include="TeklaOpenAPI" Version="2021.0.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SnitchCommon\SnitchCommon.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -47,5 +48,9 @@
     <StartArguments></StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="SET destinationDirectory=&quot;&quot;&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Debug (&#xD;&#xA;   SET destinationDirectory=&quot;%25AppData%25\Grasshopper\Libraries\Snitch\&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;xcopy &quot;$(TargetDir)&quot; &quot;%25destinationDirectory%25&quot; /Y&#xD;&#xA;ECHO Copying to %25destinationDirectory%25&#xD;&#xA;&#xD;&#xA;:nocopy" />
+  </Target>
 
 </Project>
