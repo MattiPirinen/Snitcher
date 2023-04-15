@@ -32,9 +32,15 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Volume", "V", "Volume", GH_ParamAccess.item);
             pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Polyline", "P", "Polyline", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Steel mass", "SM", "Steel mass", GH_ParamAccess.item);
+            pManager.AddTextParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Thickness", "T", "Thickness", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Load", "L", "Load", GH_ParamAccess.item);
+
+            pManager[6].Optional = true;
         }
 
         /// <summary>
@@ -52,15 +58,31 @@ namespace SnitchGrasshopper.Component.Object
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Point3d> points = new List<Point3d>();
-            double volume = double.NaN;
             Mesh mesh = null;
+            Curve curve = null;
+            double concreteVolume = double.NaN;
+            double steelMass = double.NaN;
+            string concreteClass = string.Empty;
+            double thickness = double.NaN;
+            double load = double.NaN;
 
-            if (!DA.GetDataList(0, points)) return;
-            if (!DA.GetData(1, ref volume)) return;
-            if (!DA.GetData(2, ref mesh)) return;
+            if (!DA.GetData(0, ref mesh)) return;
+            if (!DA.GetData(1, ref curve)) return;
+            if (!DA.GetData(2, ref concreteVolume)) return;
+            if (!DA.GetData(3, ref steelMass)) return;
+            if (!DA.GetData(5, ref thickness)) return;
+            if (!DA.GetData(6, ref load)) return;
 
-            Wall wall = new Wall();
+            curve.TryGetPolyline(out Polyline polyline);
+
+            SnitchCommon.Wall wall = new SnitchCommon.Wall
+            {
+                Mesh = mesh,
+                Volume_concrete_m3 = 0.0,
+                Mass_steel_m3 = 0.0,
+                ConcreteClass = "",
+                Load = load,
+            };
 
             DA.SetData(0, wall);
         }

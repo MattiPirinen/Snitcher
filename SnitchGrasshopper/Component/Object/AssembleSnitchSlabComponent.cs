@@ -34,10 +34,13 @@ namespace SnitchGrasshopper.Component.Object
         {
             pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
             pManager.AddCurveParameter("Polyline", "P", "Polyline", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Length", "L", "Length", GH_ParamAccess.item);
             pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
             pManager.AddNumberParameter("Steel mass", "SM", "Steel mass", GH_ParamAccess.item);
             pManager.AddTextParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Thickness", "T", "Thickness", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Load", "L", "Load", GH_ParamAccess.item);
+
+            pManager[6].Optional = true;
         }
 
         /// <summary>
@@ -57,18 +60,20 @@ namespace SnitchGrasshopper.Component.Object
         {
             Mesh mesh = null;
             Curve curve = null;
-            double length = double.NaN;
             double concreteVolume = double.NaN;
             double steelMass = double.NaN;
             string concreteClass = string.Empty;
+            double thickness = double.NaN;
+            double load = double.NaN;
 
             if (!DA.GetData(0, ref mesh)) return;
             if (!DA.GetData(1, ref curve)) return;
-            if (!DA.GetData(2, ref length)) return;
-            if (!DA.GetData(3, ref concreteVolume)) return;
-            if (!DA.GetData(4, ref steelMass)) return;
-            if (!DA.GetData(5, ref concreteClass)) return;
-            
+            if (!DA.GetData(2, ref concreteVolume)) return;
+            if (!DA.GetData(3, ref steelMass)) return;
+            if (!DA.GetData(4, ref concreteClass)) return;
+            if (!DA.GetData(5, ref thickness)) return;
+            if (!DA.GetData(6, ref load)) return;
+
             curve.TryGetPolyline(out Polyline polyline);
 
             SnitchCommon.Slab slab = new SnitchCommon.Slab
@@ -78,6 +83,7 @@ namespace SnitchGrasshopper.Component.Object
                 Volume_concrete_m3 = 0.0,
                 Mass_steel_m3 = 0.0,
                 ConcreteClass = "",
+                Load = load,
             };
 
             DA.SetData(0, slab);
