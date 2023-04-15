@@ -8,5 +8,15 @@ namespace SnitchCommon
 {
     public class Column: BuildingMember_base
     {
+        //---------------------- CONSTRUCTORS ------------------------
+
+        //------------------------- FIELDS ---------------------------
+
+        //----------------------- PROPERTIES -------------------------
+
+        public double Height { get; set; }
+        public double LoadBearingArea        { get; set; }
+
+        //------------------------ METHODS ---------------------------
     }
 }

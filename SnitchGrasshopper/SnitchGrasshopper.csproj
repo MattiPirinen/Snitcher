@@ -18,6 +18,7 @@
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="TeklaOpenAPI" Version="2021.0.1" />
   </ItemGroup>
   
   <ItemGroup>

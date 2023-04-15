@@ -19,14 +19,17 @@ namespace SnitchCommon
         //----------------------- PROPERTIES -------------------------
 
 
-        public decimal Volume_conc { get; set; }
-        public decimal Volume_steel { get; set; }
+        public decimal Volume_concrete_m3 { get; set; }
+        public decimal Volume_steel_m3 { get; set; }
 
-        
+        public decimal Weight_concrete_N { get; set; }
+        public decimal Weight_steel_N { get; set; }
+
+        public decimal CO2_total { get; set; }
+        public decimal CO2_concrete { get; set; }
+        public decimal CO2_steel { get; set; }
 
         //------------------------ METHODS ---------------------------
 
-        public abstract void Get_CO2(out double co2_total, out double co2_concrete, out double co2_steel);
-        
     }
 }
