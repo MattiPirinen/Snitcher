@@ -36,7 +36,7 @@ namespace SnitchGrasshopper.Component.Object
             pManager.AddNumberParameter("Length", "L", "Length", GH_ParamAccess.item);
             pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
             pManager.AddNumberParameter("Steel volume", "SV", "Steel volume", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
+            pManager.AddTextParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
         }
 
         /// <summary>
