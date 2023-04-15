@@ -58,6 +58,7 @@
     <Compile Include="Building.cs" />
     <Compile Include="BuildingMember_base.cs" />
     <Compile Include="Building_base.cs" />
+    <Compile Include="Calculation.cs" />
     <Compile Include="CO2Emission.cs" />
     <Compile Include="Column.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataBAse\Database.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
