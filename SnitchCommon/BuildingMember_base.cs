@@ -21,13 +21,46 @@ namespace SnitchCommon
 
         //------------------------ METHODS ---------------------------
 
-        public void CalculateProperties()
+        public void CalculateProperties(AverageCo2Values averageCo2Values)
         {
             Set_weight_steel_N();
             Set_weight_concrete_N();
 
             Set_CO2_concrete();
             Set_CO2_steel();
+
+            CalculateScore(averageCo2Values);
+        }
+
+        private void CalculateScore(AverageCo2Values averageCo2Values)
+        {
+            double ref_val = ChooseReferenceValue(averageCo2Values);
+
+            this.Score = this.CO2_total / ref_val - 1;
+        }
+
+        private double ChooseReferenceValue(AverageCo2Values averageCo2Values)
+        {
+            if(this is Column)
+            {
+                return averageCo2Values.Column;
+            }
+            else if(this is Beam)
+            {
+                return averageCo2Values.Beam;
+            }
+            else if(this is Slab)
+            {
+                return averageCo2Values.Slab;
+            }
+            else if(this is Wall)
+            {
+                return averageCo2Values.Wall;
+            }
+            else
+            {
+                return 2E-16;
+            }
         }
 
         private double Get_mass_steel_kg()

@@ -25,5 +25,6 @@ namespace SnitchCommon
         public Dictionary<Point3d, Polyline> Voronois { get; } = new Dictionary<Point3d, Polyline>();
 
         //------------------------ METHODS ---------------------------
+
     }
 }

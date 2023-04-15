@@ -3,7 +3,7 @@ using SnitchCommon;
 using System;
 using System.Collections.Generic;
 
-namespace SnitchGrasshopper.Component.Object
+namespace SnitchGrasshopper.Component.Model
 {
     public class Gh_building : GH_Component
     {
@@ -38,13 +38,13 @@ namespace SnitchGrasshopper.Component.Object
 
         //------------------------ METHODS ---------------------------
 
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             //#0
             pManager.AddGenericParameter("List of building objects", "Objects", "List of building objects", GH_ParamAccess.list);
         }
 
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             //#0
             pManager.AddGenericParameter("Building", "Building", "Building", GH_ParamAccess.item);
@@ -54,23 +54,23 @@ namespace SnitchGrasshopper.Component.Object
         {
             List<BuildingMember_base> list_temp = new List<BuildingMember_base>();
 
-            if (!DA.GetData(0, ref list_temp))
+            if (!DA.GetDataList(0, list_temp))
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Failed to receive input for list of building objects");
                 return false;
             }
 
-            this.InputObjects = list_temp;
+            InputObjects = list_temp;
 
             return true;
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            if(CollectInputData_buildingObjects(DA) ==false) { return; }
+            if (CollectInputData_buildingObjects(DA) == false) { return; }
 
 
-            this.Building = new Building(this.InputObjects);
+            Building = new Building(InputObjects);
 
             AssignOutputVariables(DA);
         }
@@ -78,7 +78,7 @@ namespace SnitchGrasshopper.Component.Object
 
         private void AssignOutputVariables(IGH_DataAccess DA)
         {
-            DA.SetData(0, this.Building);
+            DA.SetData(0, Building);
         }
     }
 }
