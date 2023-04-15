@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,56 +16,54 @@ namespace SnitchCommon
 
         }
 
-        //------------------------- FIELDS ---------------------------
 
         //----------------------- PROPERTIES -------------------------
 
         public string ConcreteClass { get; set; }
-        
+        public decimal G { get { return 9.81m; } }
 
         //------------------------ METHODS ---------------------------
 
-        private double Get_rebarWeight_kg()
+        public void CalculateProperties()
         {
-            return (double)this.Volume_steel * 7850;
+            Set_weight_steel_N();
+            Set_weight_concrete_N();
+
+            Set_CO2_concrete();
+            Set_CO2_steel();
         }
 
-        public double Get_CO2()
+        private decimal Get_mass_steel_kg()
         {
-            double co2_concrete = Get_CO2_concrete();
-            double co2_rebars = Get_CO2_steel();
-
-            return co2_concrete + co2_rebars;
+            return this.Volume_steel_m3 * 7850;
         }
 
-        public double Get_CO2_concrete()
+        private void Set_weight_steel_N()
         {
-            decimal volume = this.Volume_conc;
-            double specific_weight = 24; // kN/m^3 for unreinforced concrete
-            double g = 9.81;
-            double rho = specific_weight * 1000 /*to N/m^3*/ / g /*to kg/m^3*/;
-            double concreteMass = (double)volume * rho; // kg
-            double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
-
-            return kgCo2PerKgConcrete * concreteMass;
+            this.Weight_steel_N = Get_mass_steel_kg() * this.G;
         }
 
-        public double Get_CO2_steel()
+        private void Set_weight_concrete_N()
         {
-            double steelMass = Get_rebarWeight_kg();
-            double kgCo2PerKgSteel = 0.67;
-
-            return kgCo2PerKgSteel * steelMass;
+            this.Weight_concrete_N = this.Volume_concrete_m3 * 24000;
         }
 
-        public double Get_CO2_emissionFactor()
+        private void Set_CO2_concrete()
         {
-            return this.Co2EmissionsOfConcrete[this.ConcreteClass];
+            decimal mass_concrete_kg = this.Weight_concrete_N / this.G;
+            decimal kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
+
+            this.CO2_concrete = kgCo2PerKgConcrete * mass_concrete_kg;
+        }
+        
+        private decimal Set_CO2_steel()
+        {
+            return 0.67m * Get_mass_steel_kg();
         }
 
-        public override void Get_CO2(out double co2_total, out double co2_concrete, out double co2_steel)
+        public decimal Get_CO2_emissionFactor()
         {
-            throw new NotImplementedException();
+            return (decimal)this.Co2EmissionsOfConcrete[this.ConcreteClass];
         }
 
         private Dictionary<string, double> Co2EmissionsOfConcrete { get; set; } = new Dictionary<string, double>
