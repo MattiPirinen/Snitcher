@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnitchGrasshopper", "Snitch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnitchCommon", "SnitchCommon\SnitchCommon.csproj", "{64385D15-555F-405B-B928-C558080DC45B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnitchTekla", "SnitchTekla\SnitchTekla.csproj", "{91311F19-8348-4227-BCC3-4103162D077C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{64385D15-555F-405B-B928-C558080DC45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64385D15-555F-405B-B928-C558080DC45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64385D15-555F-405B-B928-C558080DC45B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91311F19-8348-4227-BCC3-4103162D077C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91311F19-8348-4227-BCC3-4103162D077C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91311F19-8348-4227-BCC3-4103162D077C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91311F19-8348-4227-BCC3-4103162D077C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
