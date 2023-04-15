@@ -107,9 +107,9 @@ namespace SnitchGrasshopper.Component.Model
                         break;
                     i++;
                 }
-                var voronois = Voronois.get_Branch(i);
-                int index = pClouds[i].ClosestPoint(col.CenterLine.To);
-                col.LoadBearingArea = AreaMassProperties.Compute(((GH_Curve)voronois[index]).Value).Area;
+                //var voronois = Voronois.get_Branch(i);
+                //int index = pClouds[i].ClosestPoint(col.CenterLine.To);
+                //col.LoadBearingArea = AreaMassProperties.Compute(((GH_Curve)voronois[index]).Value).Area;
             }
 
 
