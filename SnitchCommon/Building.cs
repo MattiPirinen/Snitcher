@@ -23,7 +23,7 @@ namespace SnitchCommon
 
         //----------------------- PROPERTIES -------------------------
         public int FloorQty_total { get; set; }
-        public double DistributedLoad_live { get; set; }
+        public double DistributedLoad_live { get; set; } 
 
         public CO2Emission CO2_total { get; set; }
         public CO2Emission CO2_beams { get; set; }
@@ -47,7 +47,7 @@ namespace SnitchCommon
             this.Slabs = new Dictionary<Guid, BuildingMember_base>();
             this.Walls= new Dictionary<Guid, BuildingMember_base>();
 
-            this.DistributedLoad_live = 2000; // N/m2
+            this.DistributedLoad_live = 4000; // N/m2
         }
 
         private void InitiateObjectList()
@@ -138,7 +138,7 @@ namespace SnitchCommon
 
             this.FloorQty_total = list.Count;
 
-            SetFloorNumberAndLoadToColumns(list);
+            SetFloorNumberToColumns(list);
         }
 
         private List<KeyValuePair<double, List<Column>>> CollectFloorColumns()
@@ -164,7 +164,7 @@ namespace SnitchCommon
             return list.OrderBy(l => l.Key).ToList();
         }
 
-        private void SetFloorNumberAndLoadToColumns(List<KeyValuePair<double, List<Column>>> list)
+        private void SetFloorNumberToColumns(List<KeyValuePair<double, List<Column>>> list)
         {
             for (int i = 1; i < list.Count; i++)
             {
@@ -174,10 +174,19 @@ namespace SnitchCommon
                 {
                     column.FloorNo = i;
 
-                    column.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
+                    
                 }
 
 
+            }
+        }
+
+        public void SetColumnLoads()
+        {
+            foreach (var column in Columns.Values)
+            {
+                Column col = (Column)column;
+                col.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
             }
         }
 

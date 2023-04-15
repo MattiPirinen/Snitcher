@@ -68,9 +68,6 @@ namespace SnitchGrasshopper.Component.Model
             }
             if (!DA.GetDataTree(1, out curves))
                 return false;
-            
-            
-
 
             InputObjects = list_temp;
             Voronois = curves;
@@ -81,11 +78,18 @@ namespace SnitchGrasshopper.Component.Model
         {
             if (CollectInputData_buildingObjects(DA) == false) { return; }
             Building = new Building(InputObjects);
+
+            AddLoadingAreas();
+            Building.SetColumnLoads();
+
+            AssignOutputVariables(DA);
+        }
+
+        private void AddLoadingAreas()
+        {
+
             List<PointCloud> pClouds = new List<PointCloud>();
             List<double> floorCoordsZ = new List<double>();
-            
-
-
             foreach (var item in Voronois.Branches)
             {
                 item[0].Value.TryGetPolyline(out var polyline);
@@ -109,14 +113,10 @@ namespace SnitchGrasshopper.Component.Model
                 }
                 var voronois = Voronois.get_Branch(i);
                 int index = pClouds[i].ClosestPoint(col.CenterLine.To);
-                col.LoadBearingArea = AreaMassProperties.Compute(((GH_Curve)voronois[index]).Value).Area;
+                col.LoadBearingArea = AreaMassProperties.Compute(((GH_Curve)voronois[index]).Value).Area * Math.Pow(10, -6);
             }
 
-
-
-            AssignOutputVariables(DA);
         }
-
 
         private void AssignOutputVariables(IGH_DataAccess DA)
         {
