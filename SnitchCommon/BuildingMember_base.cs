@@ -49,7 +49,7 @@ namespace SnitchCommon
             return kgCo2PerKgConcrete * concreteMass;
         }
 
-        public override double Get_CO2_steel()
+        public double Get_CO2_steel()
         {
             double steelMass = Get_rebarWeight_kg();
             double kgCo2PerKgSteel = 0.67;
@@ -60,6 +60,11 @@ namespace SnitchCommon
         public double Get_CO2_emissionFactor()
         {
             return this.Co2EmissionsOfConcrete[this.ConcreteClass];
+        }
+
+        public override void Get_CO2(out double co2_total, out double co2_concrete, out double co2_steel)
+        {
+            throw new NotImplementedException();
         }
 
         private Dictionary<string, double> Co2EmissionsOfConcrete { get; set; } = new Dictionary<string, double>

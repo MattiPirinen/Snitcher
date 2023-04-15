@@ -11,7 +11,7 @@ namespace SnitchCommon
 {
     public static class StaticMethods
     {
-        public static List<Polyline> CreateVoronoi(List<Point2d> pts)
+        public static List<Line> CreateVoronoi(List<Point2d> pts)
         {
             DelaunayTriangulator delaunay = new DelaunayTriangulator();
             Voronoi voronoi = new Voronoi();
@@ -23,16 +23,23 @@ namespace SnitchCommon
             var triangulation = delaunay.BowyerWatson(delanayPoints);
             var vornoiEdges = voronoi.GenerateEdgesFromDelaunay(triangulation);
 
-            List<Polyline> vornoi = CreatePolylines(vornoiEdges);
+            List<Line> vornoi = CreatePolylines(vornoiEdges);
+            return vornoi;
         }
 
-        private static List<Polyline> CreatePolylines(IEnumerable<Edge> vornoiEdges)
+        private static List<Line> CreatePolylines(IEnumerable<Edge> vornoiEdges)
         {
-            List<Polyline> polylines = new List<Polyline>();
+            List<Line> polylines = new List<Line>();
             foreach (var edge in vornoiEdges)
             {
-                edge.
+                polylines.Add(new Line(ToRhinoPoint(edge.Point1), ToRhinoPoint(edge.Point2)));
             }
+            return polylines;
+        }
+
+        private static Point3d ToRhinoPoint(delPoint point1)
+        {
+            return new Point3d(point1.X, point1.Y, 0);
         }
     }
 }
