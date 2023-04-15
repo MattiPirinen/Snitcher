@@ -166,7 +166,7 @@ namespace SnitchCommon
 
         private void SetFloorNumberAndLoadToColumns(List<KeyValuePair<double, List<Column>>> list)
         {
-            for (int i = 1; i <= list.Count; i++)
+            for (int i = 1; i < list.Count; i++)
             {
                 KeyValuePair<double, List<Column>> kvp = list[i];
 
