@@ -26,9 +26,7 @@ namespace SnitchCommon
         public double Weight_concrete_N { get; set; }
         public double Weight_steel_N { get; set; }
 
-        public double CO2_total { get; set; }
-        public double CO2_concrete { get; set; }
-        public double CO2_steel { get; set; }
+        public CO2Emission CO2 { get; set; }
         public double Score { get; set; }
         
 
