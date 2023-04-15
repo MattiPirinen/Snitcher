@@ -28,7 +28,8 @@ namespace SnitchCommon
 
         public CO2Emission CO2 { get; set; }
         public double Score { get; set; }
-        
+        public double Load { get; set; }
+
 
         //------------------------ METHODS ---------------------------
 
