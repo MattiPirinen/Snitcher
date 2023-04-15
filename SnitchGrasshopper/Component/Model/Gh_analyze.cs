@@ -1,6 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using Newtonsoft.Json;
 using SnitchCommon;
+using SnitchGrasshopper.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,24 +16,18 @@ namespace SnitchGrasshopper.Component.Model
 
         public Gh_analyze()
           : base(
-                "Snitch building",
-                "Snitch building",
-                "Assemble a Snitch building.",
+                "Analyze Snitch building",
+                "Analyze Snitch building",
+                "Analyze a Snitch building.",
                 "Snitch",
-                "Object")
+                "Model")
         {
 
         }
 
         //----------------------- PROPERTIES -------------------------
 
-        protected override System.Drawing.Bitmap Icon 
-        {
-            get
-            {
-                return null;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Resources.DogSniffing_24x24;
 
         public override Guid ComponentGuid
         {
@@ -46,7 +41,6 @@ namespace SnitchGrasshopper.Component.Model
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("DataBase", "DataBase", "DataBase object", GH_ParamAccess.item);
             pManager.AddGenericParameter("Building", "Building", "building object", GH_ParamAccess.item);
         }
 
@@ -58,46 +52,56 @@ namespace SnitchGrasshopper.Component.Model
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             CollectInputData(DA);
+            List<Building> dataBaseBuildings = GetDatabaseBuildings();
 
-            this.Building.Calculate_CO2_and_score(this.DataBase);
+
+            this.Building.Calculate_CO2_and_score(dataBaseBuildings);
 
             AssignOutputVariables(DA);
+        }
+
+        private List<Building> GetDatabaseBuildings()
+        {
+            List<Building> databaseBuildings = new List<Building>();
+
+            string databaseDirectory =
+                $"{Directory.GetParent(OnPingDocument().FilePath).FullName}{Path.DirectorySeparatorChar}";
+
+            foreach (string filePath in Directory.GetFiles(databaseDirectory))
+            {
+                if (filePath.Contains(".json"))
+                {
+                    string json = string.Empty;
+
+                    using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
+                    {
+                        json = streamReader.ReadToEnd();
+                    }
+
+                    Building databse = JsonConvert.DeserializeObject<Building>(json);
+                    databaseBuildings.Add(databse);
+                }
+            }
+
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, $"Using {databaseBuildings.Count} database buildings");
+
+            return databaseBuildings;
         }
 
 
         private bool CollectInputData(IGH_DataAccess DA)
         {
-            if (CollectInputData_dataBase(DA) == false) { return false; }
-
             if (CollectInputData_building(DA) == false) { return false; }
 
             return true;
         }
-
-
-        private bool CollectInputData_dataBase(IGH_DataAccess DA)
-        {
-            Building dataBase_temp = new Building();
-
-
-            if (!DA.GetData(0, ref dataBase_temp))
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Failed to receive input for databse");
-                return false;
-            }
-
-            this.DataBase = dataBase_temp;
-
-            return true;
-        }
-        
 
         private bool CollectInputData_building(IGH_DataAccess DA)
         {
             Building building_temp = new Building();
 
 
-            if (!DA.GetData(1, ref building_temp))
+            if (!DA.GetData(0, ref building_temp))
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Failed to receive input for building");
                 return false;

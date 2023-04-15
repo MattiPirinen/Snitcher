@@ -3,6 +3,7 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using SnitchCommon;
+using SnitchGrasshopper.Properties;
 using System;
 using System.Collections.Generic;
 
@@ -14,11 +15,11 @@ namespace SnitchGrasshopper.Component.Model
 
         public Gh_building()
           : base(
-                "Snitch building",
-                "Snitch building",
+                "Assemble a Snitch building",
+                "Assemble a Snitch building",
                 "Assemble a Snitch building.",
                 "Snitch",
-                "Object")
+                "Model")
         {
 
         }
@@ -26,7 +27,7 @@ namespace SnitchGrasshopper.Component.Model
 
         //----------------------- PROPERTIES -------------------------
 
-        protected override System.Drawing.Bitmap Icon { get { return null; } }
+        protected override System.Drawing.Bitmap Icon => Resources.DogSniffing_24x24;
 
         public override Guid ComponentGuid
         {
