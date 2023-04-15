@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
-    public class Column: BuildingObjects
+    public class Column: BuildingMember_base
     {
     }
 }
