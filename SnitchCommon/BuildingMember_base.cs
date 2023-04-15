@@ -65,7 +65,7 @@ namespace SnitchCommon
 
         private double Get_mass_steel_kg()
         {
-            return this.Volume_steel_m3 * 7850;
+            return this.Mass_steel_m3 * 7850;
         }
 
         private void Set_weight_steel_N()

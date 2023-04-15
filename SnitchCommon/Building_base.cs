@@ -21,7 +21,7 @@ namespace SnitchCommon
         public Guid Guid { get; set; }
 
         public double Volume_concrete_m3 { get; set; }
-        public double Volume_steel_m3 { get; set; }
+        public double Mass_steel_m3 { get; set; }
 
         public double Weight_concrete_N { get; set; }
         public double Weight_steel_N { get; set; }
