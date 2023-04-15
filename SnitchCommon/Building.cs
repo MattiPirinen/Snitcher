@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Rhino;
+using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SnitchCommon
 {
@@ -16,10 +19,13 @@ namespace SnitchCommon
         {
             AssignProperties();
             DetectAndPopulateObjects(gh_inputObjs);
+            ProcessFloorInformation();
         }
 
         //----------------------- PROPERTIES -------------------------
-        public int NoOfFloors { get; set; }
+        public int FloorQty_total { get; set; }
+        public double DistributedLoad_live { get; set; }
+
         public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
         public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
         public Dictionary<Guid, BuildingMember_base> Columns{ get; private set; }
@@ -35,6 +41,8 @@ namespace SnitchCommon
             this.Columns = new Dictionary<Guid, BuildingMember_base>();
             this.Slabs = new Dictionary<Guid, BuildingMember_base>();
             this.Walls= new Dictionary<Guid, BuildingMember_base>();
+
+            this.DistributedLoad_live = 2000; // N/m2
         }
 
         private void InitiateObjectList()
@@ -99,6 +107,55 @@ namespace SnitchCommon
             else
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        
+        private void ProcessFloorInformation()
+        {
+            List<KeyValuePair<double, List<Column>>> list = CollectFloorColumns();
+
+            this.FloorQty_total = list.Count;
+
+            SetFloorNumberAndLoadToColumns(list);
+        }
+
+        private List<KeyValuePair<double, List<Column>>> CollectFloorColumns()
+        {
+            Dictionary<double, List<Column>> minZCoordinates = new Dictionary<double, List<Column>>();
+
+            foreach (Column column in this.Columns.Values)
+            {
+                BoundingBox bb = BoundingBox.Empty;
+
+                bb = column.CenterLine.ToNurbsCurve().GetBoundingBox(true);
+
+                double minZ = Math.Round(bb.Min.Z, 1);
+
+                if (minZCoordinates.ContainsKey(minZ))
+                    minZCoordinates[minZ].Add(column);
+                else
+                    minZCoordinates.Add(minZ, new List<Column>() { column });
+            }
+
+            List<KeyValuePair<double, List<Column>>> list = minZCoordinates.ToList();
+
+            return list.OrderBy(l => l.Key).ToList();
+        }
+
+        private void SetFloorNumberAndLoadToColumns(List<KeyValuePair<double, List<Column>>> list)
+        {
+            for (int i = 1; i <= list.Count; i++)
+            {
+                KeyValuePair<double, List<Column>> kvp = list[i];
+
+                foreach (Column column in kvp.Value)
+                {
+                    column.FloorNo = i;
+
+                    column.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
+                }
+
             }
         }
 

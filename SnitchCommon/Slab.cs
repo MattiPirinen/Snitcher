@@ -24,5 +24,6 @@ namespace SnitchCommon
         public Polyline Boundary { get; set; }
 
         //------------------------ METHODS ---------------------------
+
     }
 }
