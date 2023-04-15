@@ -1,6 +1,8 @@
-﻿using Rhino.Geometry;
+﻿using Newtonsoft.Json;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SnitchCommon
@@ -11,17 +13,21 @@ namespace SnitchCommon
 
         public Building()
         {
-            AssignProperties();
+            
         }
 
         public Building(List<BuildingMember_base> gh_inputObjs)
         {
             AssignProperties();
             DetectAndPopulateObjects(gh_inputObjs);
-            ProcessFloorInformation();
         }
 
         //----------------------- PROPERTIES -------------------------
+
+        [JsonIgnore]
+        public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
+
+
         public int FloorQty_total { get; set; }
         public double DistributedLoad_live { get; set; } 
 
@@ -31,11 +37,11 @@ namespace SnitchCommon
         public CO2Emission CO2_slabs { get; set; }
         public CO2Emission CO2_walls { get; set; }
 
-        public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Columns{ get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Slabs { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Walls { get; private set; }
+        
+        public Dictionary<Guid, BuildingMember_base> Beams { get; set; }
+        public Dictionary<Guid, BuildingMember_base> Columns{ get; set; }
+        public Dictionary<Guid, BuildingMember_base> Slabs { get; set; }
+        public Dictionary<Guid, BuildingMember_base> Walls { get; set; }
 
 
         //------------------------ METHODS ---------------------------
@@ -52,7 +58,7 @@ namespace SnitchCommon
 
         private void InitiateObjectList()
         {
-            this.BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
+            BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
             {
                 this.Beams,
                 this.Columns,
@@ -63,10 +69,10 @@ namespace SnitchCommon
 
         public void Calculate_CO2_and_score(AverageCo2Values averageCo2Values)
         {
-            
+
             InitiateObjectList();
 
-            foreach (Dictionary<Guid, BuildingMember_base> dict in this.BuildingObjectsList)
+            foreach (Dictionary<Guid, BuildingMember_base> dict in BuildingObjectsList)
             {
                 foreach (KeyValuePair<Guid, BuildingMember_base> kvp in dict)
                 {
@@ -81,19 +87,19 @@ namespace SnitchCommon
         {
             this.CO2_total.CollectCO2(obj.CO2);
 
-            if(obj is Beam) 
-            { 
-                this.CO2_beams.CollectCO2(obj.CO2); 
+            if (obj is Beam)
+            {
+                this.CO2_beams.CollectCO2(obj.CO2);
             }
-            else if(obj is Column)
+            else if (obj is Column)
             {
                 this.CO2_columns.CollectCO2(obj.CO2);
             }
-            else if(obj is Wall)
+            else if (obj is Wall)
             {
                 this.CO2_walls.CollectCO2(obj.CO2);
             }
-            else if(obj is Slab)
+            else if (obj is Slab)
             {
                 this.CO2_slabs.CollectCO2(obj.CO2);
             }
@@ -109,19 +115,19 @@ namespace SnitchCommon
 
         private void DetectAndPopulateObject(BuildingMember_base item)
         {
-            if(item is Beam beam) 
-            { 
-                this.Beams.Add(beam.Guid, beam); 
+            if (item is Beam beam)
+            {
+                this.Beams.Add(beam.Guid, beam);
             }
-            else if(item is Column column)
+            else if (item is Column column)
             {
                 this.Columns.Add(column.Guid, column);
             }
-            else if(item is Wall wall)
+            else if (item is Wall wall)
             {
                 this.Walls.Add(wall.Guid, wall);
             }
-            else if(item is Slab slab)
+            else if (item is Slab slab)
             {
                 this.Slabs.Add(slab.Guid, slab);
             }
@@ -131,7 +137,7 @@ namespace SnitchCommon
             }
         }
 
-        
+
         private void ProcessFloorInformation()
         {
             List<KeyValuePair<double, List<Column>>> list = CollectFloorColumns();
@@ -166,13 +172,13 @@ namespace SnitchCommon
 
         private void SetFloorNumberToColumns(List<KeyValuePair<double, List<Column>>> list)
         {
-            for (int i = 1; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 KeyValuePair<double, List<Column>> kvp = list[i];
 
                 foreach (Column column in kvp.Value)
                 {
-                    column.FloorNo = i;
+                    column.FloorNo = i + 1;
 
                     
                 }

@@ -18,7 +18,7 @@ namespace SnitchCommon
         
         public double Height { get; set; }
         public double LoadBearingArea { get; set; }
-        public double Load { get; set; }
+        public double NormalForce { get; set; }
         public Line CenterLine { get; set; }
 
         //------------------------ METHODS ---------------------------
@@ -27,7 +27,7 @@ namespace SnitchCommon
         {
             int topFloorsQty = floorQty_tot - this.FloorNo + 1 /*roof*/;
 
-            this.Load = topFloorsQty * this.LoadBearingArea * floorLoad;
+            this.NormalForce = topFloorsQty * this.LoadBearingArea * floorLoad;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace SnitchCommon
 
         public Polyline Boundary { get; set; }
         public Dictionary<Point3d, Polyline> Voronois { get; } = new Dictionary<Point3d, Polyline>();
+        public double Load { get; set; }
 
         //------------------------ METHODS ---------------------------
 

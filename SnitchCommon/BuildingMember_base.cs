@@ -1,4 +1,5 @@
-﻿using Rhino.Geometry;
+﻿using Newtonsoft.Json;
+using Rhino.Geometry;
 using System.Collections.Generic;
 
 namespace SnitchCommon
@@ -17,6 +18,7 @@ namespace SnitchCommon
         public int FloorNo { get; set; }
         public string ConcreteClass { get; set; }
         public double G { get { return 9.81; } }
+        [JsonIgnore]
         public Mesh Mesh { get; set; }
 
         //------------------------ METHODS ---------------------------

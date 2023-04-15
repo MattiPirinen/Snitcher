@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace SnitchCommon
     public abstract class Building_base
     {
         //---------------------- CONSTRUCTORS ------------------------
+        [JsonConstructor]
+        public Building_base(bool dummy = false)
+        {
+        }
         public Building_base()
         {
             AssignProperties();
@@ -28,7 +33,6 @@ namespace SnitchCommon
 
         public CO2Emission CO2 { get; set; }
         public double Score { get; set; }
-        public double Load { get; set; }
 
 
         //------------------------ METHODS ---------------------------
