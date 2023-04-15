@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageCo2Values.cs" />
     <Compile Include="Beam.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="BuildingMember_base.cs" />
