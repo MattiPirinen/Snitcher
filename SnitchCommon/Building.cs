@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SnitchCommon
 {
@@ -67,20 +68,63 @@ namespace SnitchCommon
             };
         }
 
-        public void Calculate_CO2_and_score(AverageCo2Values averageCo2Values)
+        public void Calculate_CO2_and_score(Building dataBase)
         {
-
             InitiateObjectList();
 
             foreach (Dictionary<Guid, BuildingMember_base> dict in BuildingObjectsList)
             {
                 foreach (KeyValuePair<Guid, BuildingMember_base> kvp in dict)
                 {
-                    kvp.Value.CalculateProperties(averageCo2Values);
+                    CO2Emission co2_ref = Get_co2_fromClosestMember(dataBase, kvp.Value);
+                    kvp.Value.CalculateProperties(co2_ref);
 
                     CollectCO2(kvp.Value);
                 }
             }
+        }
+
+        private CO2Emission Get_co2_fromClosestMember(Building dataBase, BuildingMember_base member)
+        {
+            if(member is Column column)
+            {
+                return Get_co2_fromClosest_column(dataBase.Columns.Values.ToList(), column);
+            }
+            else if(member is Slab slab)
+            {
+                return Get_co2_fromClosest_slab();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private CO2Emission Get_co2_fromClosest_column(List<BuildingMember_base> list_in_base, Column column_curr)
+        {
+            List<Column> list_in_columns = new List<Column>();
+
+            list_in_base.ForEach(x => list_in_columns.Add((Column)x));
+
+            List<(double, Column)> list_diff = new List<(double, Column)>();
+
+            foreach (Column col_in in list_in_columns)
+            {
+                double diff = Math.Abs(col_in.NormalForce - column_curr.NormalForce);
+                list_diff.Add((diff, col_in));
+            }
+
+            List<(double, Column)> list_diff_sorted = list_diff.OrderBy(x => x.Item1).ToList();
+
+            return list_diff_sorted[0].Item2.CO2;
+        }
+        
+        private CO2Emission Get_co2_fromClosest_slab()
+        {
+            return new CO2Emission()
+            {
+                Total = 1000
+            };
         }
 
         private void CollectCO2(BuildingMember_base obj)
