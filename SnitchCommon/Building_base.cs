@@ -29,6 +29,8 @@ namespace SnitchCommon
         public double CO2_total { get; set; }
         public double CO2_concrete { get; set; }
         public double CO2_steel { get; set; }
+        public double Score { get; set; }
+        
 
         //------------------------ METHODS ---------------------------
 

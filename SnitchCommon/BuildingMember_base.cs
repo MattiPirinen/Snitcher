@@ -14,7 +14,7 @@ namespace SnitchCommon
 
 
         //----------------------- PROPERTIES -------------------------
-
+        public int FloorNo { get; set; }
         public string ConcreteClass { get; set; }
         public double G { get { return 9.81; } }
         public Mesh Mesh { get; set; }

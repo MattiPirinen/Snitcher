@@ -19,7 +19,7 @@ namespace SnitchCommon
         }
 
         //----------------------- PROPERTIES -------------------------
-
+        public int NoOfFloors { get; set; }
         public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
         public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
         public Dictionary<Guid, BuildingMember_base> Columns{ get; private set; }

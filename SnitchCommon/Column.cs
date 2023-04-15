@@ -13,9 +13,10 @@ namespace SnitchCommon
         //------------------------- FIELDS ---------------------------
 
         //----------------------- PROPERTIES -------------------------
-
+        
         public double Height { get; set; }
-        public double LoadBearingArea        { get; set; }
+        public double LoadBearingArea { get; set; }
+        public double Load { get; set; }
 
         //------------------------ METHODS ---------------------------
     }
