@@ -8,9 +8,31 @@ namespace SnitchCommon
 {
     public class Building
     {
-        public Dictionary<Guid, Beam> Beams { get; } = new Dictionary<Guid, Beam>();
-        public Dictionary<Guid, Column> Columns{ get; } = new Dictionary<Guid, Column>();
-        public Dictionary<Guid, Slab> Slabs { get; } = new Dictionary<Guid, Slab>();
-        public Dictionary<Guid, Wall > Walls { get; } = new Dictionary<Guid, Wall>();
+        //---------------------- CONSTRUCTORS ------------------------
+
+        public Building()
+        {
+            AssignProperties();
+        }
+
+        //------------------------- FIELDS ---------------------------
+
+        //----------------------- PROPERTIES -------------------------
+
+        public Dictionary<Guid, Beam> Beams { get; private set; }
+        public Dictionary<Guid, Column> Columns{ get; private set; }
+        public Dictionary<Guid, Slab> Slabs { get; private set; }
+        public Dictionary<Guid, Wall > Walls { get; private set; }
+
+
+        //------------------------ METHODS ---------------------------
+        private void AssignProperties()
+        {
+            this.Beams = new Dictionary<Guid, Beam>();
+            this.Columns = new Dictionary<Guid, Column>();
+            this.Slabs = new Dictionary<Guid, Slab>();
+            this.Walls= new Dictionary<Guid, Wall>();
+        }
+
     }
 }
