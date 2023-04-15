@@ -37,6 +37,9 @@
     <Reference Include="DelanayClassLibrary">
       <HintPath>..\ExternalReferences\DelanayClassLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RhinoCommon">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 7\System\RhinoCommon.dll</HintPath>
     </Reference>
@@ -48,44 +51,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tekla.Application.Library, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Application.Library.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Analysis, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Analysis.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Catalogs, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Catalogs.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Datatype, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Datatype.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Dialog, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Dialog.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Drawing, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Drawing.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Model, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Model.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tekla.Structures.Plugins, Version=2021.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\packages\TeklaOpenAPI.2021.0.1\lib\Tekla.Structures.Plugins.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageCo2Values.cs" />
     <Compile Include="Beam.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="BuildingMember_base.cs" />

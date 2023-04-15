@@ -38,10 +38,79 @@ namespace SnitchCommon
 
 
             var triangulation = delaunay.BowyerWatson(delanayPoints);
+            List<Line> testLines = new List<Line>();
+            foreach (var traing in triangulation.ToList())
+            {
+                testLines.Add(new Line(new Point3d(traing.Vertices[0].X, traing.Vertices[0].Y, 0), new Point3d(traing.Vertices[1].X, traing.Vertices[1].Y, 0)));
+                testLines.Add(new Line(new Point3d(traing.Vertices[1].X, traing.Vertices[1].Y, 0), new Point3d(traing.Vertices[2].X, traing.Vertices[2].Y, 0)));
+                testLines.Add(new Line(new Point3d(traing.Vertices[2].X, traing.Vertices[2].Y, 0), new Point3d(traing.Vertices[0].X, traing.Vertices[0].Y, 0)));
+            }
+
             var vornoiEdges = voronoi.GenerateEdgesFromDelaunay(triangulation);
 
             List<Line> vornoi = CreateLines(vornoiEdges, boarder);
-            return vornoi;
+            Dictionary<Point3d, List<Line>> connectedLines = CreateConnectedLines(vornoi);
+            List<Polyline> cells = CreateCells(connectedLines, new List<Line>(vornoi));
+
+
+            return testLines;
+        }
+
+        private static List<Polyline> CreateCells(Dictionary<Point3d, List<Line>> connectedLines,List<Line> allLines)
+        {
+            List<Polyline> cells = new List<Polyline>();
+            Dictionary<Line, (bool clockwise, bool counterclockwise)> usedLines = new Dictionary<Line, (bool clockwise, bool counterclockwise)>();
+            foreach (var line in allLines)
+            {
+                usedLines.Add(line, (false,false));
+            }
+
+            foreach (var item in connectedLines)
+            {
+                foreach (var line in item.Value)
+                {
+                    if (!usedLines[line].clockwise)
+                    {
+                        cells.Add(CreateCell(connectedLines, line, true));
+                        usedLines[line] = (true, usedLines[line].counterclockwise);
+                    }
+
+                    if (!usedLines[line].clockwise)
+                    {
+                        cells.Add(CreateCell(connectedLines, line, false));
+                        usedLines[line] = (usedLines[line].clockwise, true);
+                    }
+                }
+            }
+            return cells;
+
+        }
+        
+
+
+
+        private static Polyline CreateCell(Dictionary<Point3d, List<Line>> connectedLines, Line line, bool v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Dictionary<Point3d,List<Line>> CreateConnectedLines(List<Line> vornoi)
+        {
+            Dictionary<Point3d,List<Line>> connectedLines =  new Dictionary<Point3d,List<Line>>() ;
+
+            foreach (var item in vornoi)
+            {
+                if (connectedLines.ContainsKey(item.From))
+                    connectedLines[item.From].Add(item);
+                else
+                    connectedLines.Add(item.From, new List<Line>() { item});
+                if (connectedLines.ContainsKey(item.To))
+                    connectedLines[item.To].Add(item);
+                else
+                    connectedLines.Add(item.To, new List<Line>() { item});
+            }
+
+            return connectedLines;
         }
 
         private static List<Line> CreateLines(IEnumerable<Edge> vornoiEdges, Polyline boarder)
@@ -60,17 +129,25 @@ namespace SnitchCommon
                 bool containsEnd = boarderc.Contains(lines[i].To, Plane.WorldXY,0.001) == PointContainment.Inside;
                 if ((containsEnd && containsStart) || (!containsEnd && !containsStart))
                 {
-                    lines.RemoveAt(i);
-                    continue;
+                    if ((!containsEnd && !containsStart))
+                    {
+                        lines.RemoveAt(i);
+                        continue;
+                    }
+                    else
+                    {
+                        i++;
+                        continue;
+                    }
                 }
-                    
-                CurveIntersections ci = Intersection.CurveCurve(lines[0].ToNurbsCurve(), boarderc, 0.001, 0.001);
+                Curve lineCurve = lines[i].ToNurbsCurve();
+                CurveIntersections ci = Intersection.CurveCurve(lineCurve, boarderc, 0.001, 0.001);
                 if (ci.Count != 0)
                 {
                     if (containsStart)
-                        lines[i] = new Line(lines[i].From, lines[i].PointAt(ci[0].ParameterA));
+                        lines[i] = new Line(lines[i].From, lineCurve.PointAt(ci[0].ParameterA));
                     else
-                        lines[i] = new Line(lines[i].PointAt(ci[0].ParameterA), lines[i].To);
+                        lines[i] = new Line(lineCurve.PointAt(ci[0].ParameterA), lines[i].To);
                     parameters.Add(ci[0].ParameterB);
                 }
                 i++;
