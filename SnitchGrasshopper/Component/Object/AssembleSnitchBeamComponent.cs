@@ -31,9 +31,12 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Volume", "V", "Volume", GH_ParamAccess.item);
             pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
+            pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Length", "L", "Length", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Steel volume", "SV", "Steel volume", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -51,17 +54,28 @@ namespace SnitchGrasshopper.Component.Object
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Point3d> points = new List<Point3d>();
-            double volume = double.NaN;
             Mesh mesh = null;
+            List<Point3d> points = new List<Point3d>();
+            double length = double.NaN;
+            double concreteVolume = double.NaN;
+            double steelVolume = double.NaN;
+            string concreteClass = string.Empty;
 
-            if (!DA.GetDataList(0, points)) return;
-            if (!DA.GetData(1, ref volume)) return;
-            if (!DA.GetData(2, ref mesh)) return;
+            if (!DA.GetData(0, ref mesh)) return;
+            if (!DA.GetDataList(1, points)) return;
+            if (!DA.GetData(2, ref length)) return;
+            if (!DA.GetData(3, ref concreteVolume)) return;
+            if (!DA.GetData(4, ref steelVolume)) return;
+            if (!DA.GetData(5, ref concreteClass)) return;
 
-            SnitchCommon.Beam beam = new SnitchCommon.Beam();
-            //beam.Volume_concrete_m3 = volume;
-
+            SnitchCommon.Beam beam = new SnitchCommon.Beam
+            {
+                Mesh = mesh,
+                Length = length,
+                Volume_concrete_m3 = 0.0,
+                Volume_steel_m3 = 0.0,
+                ConcreteClass = "",
+            };
 
             DA.SetData(0, beam);
         }
