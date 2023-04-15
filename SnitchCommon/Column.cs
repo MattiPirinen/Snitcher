@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
-    public class Class1
+    internal class Column
     {
     }
 }
