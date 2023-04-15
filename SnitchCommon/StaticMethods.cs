@@ -56,8 +56,8 @@ namespace SnitchCommon
             int i = 0;
             while (i < lines.Count)
             {
-                bool containsStart = boarder.Contains(lines[i].From);
-                bool containsEnd = boarder.Contains(lines[i].To);
+                bool containsStart = boarderc.Contains(lines[i].From,Plane.WorldXY,0.001) == PointContainment.Inside;
+                bool containsEnd = boarderc.Contains(lines[i].To, Plane.WorldXY,0.001) == PointContainment.Inside;
                 if ((containsEnd && containsStart) || (!containsEnd && !containsStart))
                 {
                     lines.RemoveAt(i);
