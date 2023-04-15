@@ -33,6 +33,7 @@ namespace SnitchGrasshopper.Component.Object
         {
             pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
             pManager.AddNumberParameter("Volume", "V", "Volume", GH_ParamAccess.item);
+            pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -52,13 +53,17 @@ namespace SnitchGrasshopper.Component.Object
         {
             List<Point3d> points = new List<Point3d>();
             double volume = double.NaN;
+            Mesh mesh = null;
 
             if (!DA.GetDataList(0, points)) return;
             if (!DA.GetData(1, ref volume)) return;
+            if (!DA.GetData(2, ref mesh)) return;
 
-            object snitchBeam = null;
+            SnitchCommon.Beam beam = new SnitchCommon.Beam();
+            //beam.Volume_concrete_m3 = volume;
 
-            DA.SetData(0, snitchBeam);
+
+            DA.SetData(0, beam);
         }
 
         /// <summary>
