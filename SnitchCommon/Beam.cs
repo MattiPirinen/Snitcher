@@ -8,5 +8,6 @@ namespace SnitchCommon
 {
     public class Beam: BuildingObjects
     {
+
     }
 }
