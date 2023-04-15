@@ -33,10 +33,10 @@ namespace SnitchGrasshopper.Component.Object
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
-            pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
+            pManager.AddCurveParameter("Polyline", "P", "Polyline", GH_ParamAccess.item);
             pManager.AddNumberParameter("Length", "L", "Length", GH_ParamAccess.item);
             pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Steel volume", "SV", "Steel volume", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Steel mass", "SM", "Steel mass", GH_ParamAccess.item);
             pManager.AddTextParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
         }
 
@@ -56,25 +56,27 @@ namespace SnitchGrasshopper.Component.Object
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Mesh mesh = null;
-            List<Point3d> points = new List<Point3d>();
+            Curve curve = null;
             double length = double.NaN;
             double concreteVolume = double.NaN;
-            double steelVolume = double.NaN;
+            double steelMass = double.NaN;
             string concreteClass = string.Empty;
 
             if (!DA.GetData(0, ref mesh)) return;
-            if (!DA.GetDataList(1, points)) return;
+            if (!DA.GetData(1, ref curve)) return;
             if (!DA.GetData(2, ref length)) return;
             if (!DA.GetData(3, ref concreteVolume)) return;
-            if (!DA.GetData(4, ref steelVolume)) return;
+            if (!DA.GetData(4, ref steelMass)) return;
             if (!DA.GetData(5, ref concreteClass)) return;
+
+            curve.TryGetPolyline(out Polyline polyline);
 
             SnitchCommon.Column column = new SnitchCommon.Column
             {
-                Mesh = mesh,
+                Mesh = mesh,                
                 Height = length,
                 Volume_concrete_m3 = 0.0,
-                Volume_steel_m3 = 0.0,
+                Mass_steel_m3 = 0.0,
                 ConcreteClass = "",
             };
 

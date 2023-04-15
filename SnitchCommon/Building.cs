@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Rhino;
-using Rhino.Geometry;
+﻿using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +24,12 @@ namespace SnitchCommon
         //----------------------- PROPERTIES -------------------------
         public int FloorQty_total { get; set; }
         public double DistributedLoad_live { get; set; }
-        public double CO2_total { get; private set; }
-        public double CO2_concrete { get; private set; }
-        public double CO2_steel { get; private set; }
+
+        public CO2Emission CO2_total { get; set; }
+        public CO2Emission CO2_beams { get; set; }
+        public CO2Emission CO2_columns { get; set; }
+        public CO2Emission CO2_slabs { get; set; }
+        public CO2Emission CO2_walls { get; set; }
 
         public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
         public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
@@ -62,10 +63,7 @@ namespace SnitchCommon
 
         public void Calculate_CO2_and_score(AverageCo2Values averageCo2Values)
         {
-            this.CO2_total = 0;
-            this.CO2_concrete = 0;
-            this.CO2_steel = 0;
-
+            
             InitiateObjectList();
 
             foreach (Dictionary<Guid, BuildingMember_base> dict in this.BuildingObjectsList)
@@ -74,12 +72,31 @@ namespace SnitchCommon
                 {
                     kvp.Value.CalculateProperties(averageCo2Values);
 
-                    this.CO2_concrete += (double)kvp.Value.CO2_concrete;
-                    this.CO2_steel += (double)kvp.Value.CO2_steel;
+                    CollectCO2(kvp.Value);
                 }
             }
+        }
 
-            this.CO2_total = this.CO2_concrete + this.CO2_steel;
+        private void CollectCO2(BuildingMember_base obj)
+        {
+            this.CO2_total.CollectCO2(obj.CO2);
+
+            if(obj is Beam) 
+            { 
+                this.CO2_beams.CollectCO2(obj.CO2); 
+            }
+            else if(obj is Column)
+            {
+                this.CO2_columns.CollectCO2(obj.CO2);
+            }
+            else if(obj is Wall)
+            {
+                this.CO2_walls.CollectCO2(obj.CO2);
+            }
+            else if(obj is Slab)
+            {
+                this.CO2_slabs.CollectCO2(obj.CO2);
+            }
         }
 
         private void DetectAndPopulateObjects(List<BuildingMember_base> gh_inputObjs)

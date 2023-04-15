@@ -36,7 +36,7 @@ namespace SnitchCommon
         {
             double ref_val = ChooseReferenceValue(averageCo2Values);
 
-            this.Score = this.CO2_total / ref_val - 1;
+            this.Score = this.CO2.Total / ref_val - 1;
         }
 
         private double ChooseReferenceValue(AverageCo2Values averageCo2Values)
@@ -65,7 +65,7 @@ namespace SnitchCommon
 
         private double Get_mass_steel_kg()
         {
-            return this.Volume_steel_m3 * 7850;
+            return this.Mass_steel_m3 * 7850;
         }
 
         private void Set_weight_steel_N()
@@ -83,12 +83,12 @@ namespace SnitchCommon
             double mass_concrete_kg = this.Weight_concrete_N / this.G;
             double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
 
-            this.CO2_concrete = kgCo2PerKgConcrete * mass_concrete_kg;
+            this.CO2.Concrete = kgCo2PerKgConcrete * mass_concrete_kg;
         }
         
-        private double Set_CO2_steel()
+        private void Set_CO2_steel()
         {
-            return 0.67 * Get_mass_steel_kg();
+            this.CO2.Steel = 0.67 * Get_mass_steel_kg();
         }
 
         public double Get_CO2_emissionFactor()
