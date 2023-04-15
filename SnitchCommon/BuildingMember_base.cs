@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Rhino.Geometry;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
@@ -20,7 +16,8 @@ namespace SnitchCommon
         //----------------------- PROPERTIES -------------------------
 
         public string ConcreteClass { get; set; }
-        public decimal G { get { return 9.81m; } }
+        public double G { get { return 9.81; } }
+        public Mesh Mesh { get; set; }
 
         //------------------------ METHODS ---------------------------
 
@@ -33,7 +30,7 @@ namespace SnitchCommon
             Set_CO2_steel();
         }
 
-        private decimal Get_mass_steel_kg()
+        private double Get_mass_steel_kg()
         {
             return this.Volume_steel_m3 * 7850;
         }
@@ -50,20 +47,20 @@ namespace SnitchCommon
 
         private void Set_CO2_concrete()
         {
-            decimal mass_concrete_kg = this.Weight_concrete_N / this.G;
-            decimal kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
+            double mass_concrete_kg = this.Weight_concrete_N / this.G;
+            double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
 
             this.CO2_concrete = kgCo2PerKgConcrete * mass_concrete_kg;
         }
         
-        private decimal Set_CO2_steel()
+        private double Set_CO2_steel()
         {
-            return 0.67m * Get_mass_steel_kg();
+            return 0.67 * Get_mass_steel_kg();
         }
 
-        public decimal Get_CO2_emissionFactor()
+        public double Get_CO2_emissionFactor()
         {
-            return (decimal)this.Co2EmissionsOfConcrete[this.ConcreteClass];
+            return this.Co2EmissionsOfConcrete[this.ConcreteClass];
         }
 
         private Dictionary<string, double> Co2EmissionsOfConcrete { get; set; } = new Dictionary<string, double>

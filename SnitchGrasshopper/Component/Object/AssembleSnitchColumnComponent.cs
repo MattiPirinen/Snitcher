@@ -1,13 +1,14 @@
 using Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SnitchCommon;
 using SnitchGrasshopper.Properties;
 using System;
 using System.Collections.Generic;
 
 namespace SnitchGrasshopper.Component.Object
 {
-    public class AssembleSnitchBeamComponent : GH_Component
+    public class AssembleSnitchColumnComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -16,11 +17,11 @@ namespace SnitchGrasshopper.Component.Object
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public AssembleSnitchBeamComponent()
+        public AssembleSnitchColumnComponent()
           : base(
-                "Snitch beam",
-                "Snitch beam",
-                "Assemble a Snitch beam.",
+                "Snitch column",
+                "Snitch column",
+                "Assemble a Snitch column.",
                 "Snitch", 
                 "Object")
         {
@@ -41,7 +42,7 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Snitch beam", "SB", "Snitch beam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Snitch column", "SC", "Snitch column", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -59,11 +60,9 @@ namespace SnitchGrasshopper.Component.Object
             if (!DA.GetData(1, ref volume)) return;
             if (!DA.GetData(2, ref mesh)) return;
 
-            SnitchCommon.Beam beam = new SnitchCommon.Beam();
-            //beam.Volume_concrete_m3 = volume;
+            Column column = new Column();
 
-
-            DA.SetData(0, beam);
+            DA.SetData(0, column);
         }
 
         /// <summary>
@@ -87,6 +86,6 @@ namespace SnitchGrasshopper.Component.Object
         /// It is vital this Guid doesn't change otherwise old ghx files 
         /// that use the old ID will partially fail during loading.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("f3f05277-b36c-41b3-ab07-65e86ee5cf64");
+        public override Guid ComponentGuid => new Guid("1A798EBA-8394-44E0-B653-4907BC79AF28");
     }
 }
