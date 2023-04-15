@@ -14,25 +14,58 @@ namespace SnitchCommon
 
 
         //----------------------- PROPERTIES -------------------------
-
+        public int FloorNo { get; set; }
         public string ConcreteClass { get; set; }
         public double G { get { return 9.81; } }
         public Mesh Mesh { get; set; }
 
         //------------------------ METHODS ---------------------------
 
-        public void CalculateProperties()
+        public void CalculateProperties(AverageCo2Values averageCo2Values)
         {
             Set_weight_steel_N();
             Set_weight_concrete_N();
 
             Set_CO2_concrete();
             Set_CO2_steel();
+
+            CalculateScore(averageCo2Values);
+        }
+
+        private void CalculateScore(AverageCo2Values averageCo2Values)
+        {
+            double ref_val = ChooseReferenceValue(averageCo2Values);
+
+            this.Score = this.CO2.Total / ref_val - 1;
+        }
+
+        private double ChooseReferenceValue(AverageCo2Values averageCo2Values)
+        {
+            if(this is Column)
+            {
+                return averageCo2Values.Column;
+            }
+            else if(this is Beam)
+            {
+                return averageCo2Values.Beam;
+            }
+            else if(this is Slab)
+            {
+                return averageCo2Values.Slab;
+            }
+            else if(this is Wall)
+            {
+                return averageCo2Values.Wall;
+            }
+            else
+            {
+                return 2E-16;
+            }
         }
 
         private double Get_mass_steel_kg()
         {
-            return this.Volume_steel_m3 * 7850;
+            return this.Mass_steel_m3 * 7850;
         }
 
         private void Set_weight_steel_N()
@@ -50,12 +83,12 @@ namespace SnitchCommon
             double mass_concrete_kg = this.Weight_concrete_N / this.G;
             double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
 
-            this.CO2_concrete = kgCo2PerKgConcrete * mass_concrete_kg;
+            this.CO2.Concrete = kgCo2PerKgConcrete * mass_concrete_kg;
         }
         
-        private double Set_CO2_steel()
+        private void Set_CO2_steel()
         {
-            return 0.67 * Get_mass_steel_kg();
+            this.CO2.Steel = 0.67 * Get_mass_steel_kg();
         }
 
         public double Get_CO2_emissionFactor()

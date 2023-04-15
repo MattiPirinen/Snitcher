@@ -32,9 +32,14 @@ namespace SnitchGrasshopper.Component.Object
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Points", "P", "Points", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Volume", "V", "Volume", GH_ParamAccess.item);
             pManager.AddMeshParameter("Mesh", "M ", "Mesh", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Polyline", "P", "Polyline", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Concrete volume", "CV", "Concrete volume", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Steel mass", "SM", "Steel mass", GH_ParamAccess.item);
+            pManager.AddTextParameter("Concrete class", "CC", "Concrete class", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Load", "L", "Load", GH_ParamAccess.item);
+
+            pManager[5].Optional = true;
         }
 
         /// <summary>
@@ -52,15 +57,32 @@ namespace SnitchGrasshopper.Component.Object
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<Point3d> points = new List<Point3d>();
-            double volume = double.NaN;
             Mesh mesh = null;
+            Curve curve = null;
+            double concreteVolume = double.NaN;
+            double steelMass = double.NaN;
+            string concreteClass = string.Empty;
+            double load = double.NaN;
 
-            if (!DA.GetDataList(0, points)) return;
-            if (!DA.GetData(1, ref volume)) return;
-            if (!DA.GetData(2, ref mesh)) return;
+            if (!DA.GetData(0, ref mesh)) return;
+            if (!DA.GetData(1, ref curve)) return;
+            if (!DA.GetData(2, ref concreteVolume)) return;
+            if (!DA.GetData(3, ref steelMass)) return;
+            if (!DA.GetData(4, ref concreteClass)) return;
+            if (!DA.GetData(5, ref load)) return;
 
-            Column column = new Column();
+            curve.TryGetPolyline(out Polyline polyline);
+
+            SnitchCommon.Column column = new SnitchCommon.Column
+            {
+                Mesh = mesh,                
+                Height = polyline.Length,
+                CenterLine = new Line(polyline[0], polyline[polyline.Count -1]),
+                Volume_concrete_m3 = 0.0,
+                Mass_steel_m3 = 0.0,
+                ConcreteClass = "",
+                NormalForce = load,
+            };
 
             DA.SetData(0, column);
         }
