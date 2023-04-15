@@ -19,6 +19,7 @@ namespace SnitchCommon
         public Building(List<BuildingMember_base> gh_inputObjs)
         {
             AssignProperties();
+            DetectAndPopulateObjects(gh_inputObjs);
         }
 
         //----------------------- PROPERTIES -------------------------
@@ -37,10 +38,10 @@ namespace SnitchCommon
         public CO2Emission CO2_walls { get; set; }
 
         
-        public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Columns{ get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Slabs { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Walls { get; private set; }
+        public Dictionary<Guid, BuildingMember_base> Beams { get; set; }
+        public Dictionary<Guid, BuildingMember_base> Columns{ get; set; }
+        public Dictionary<Guid, BuildingMember_base> Slabs { get; set; }
+        public Dictionary<Guid, BuildingMember_base> Walls { get; set; }
 
 
         //------------------------ METHODS ---------------------------
@@ -171,13 +172,13 @@ namespace SnitchCommon
 
         private void SetFloorNumberAndLoadToColumns(List<KeyValuePair<double, List<Column>>> list)
         {
-            for (int i = 1; i <= list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 KeyValuePair<double, List<Column>> kvp = list[i];
 
                 foreach (Column column in kvp.Value)
                 {
-                    column.FloorNo = i;
+                    column.FloorNo = i + 1;
 
                     column.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
                 }

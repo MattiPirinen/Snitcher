@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +14,19 @@ namespace ConsoleApp_testing_pooya
     {
         static void Main(string[] args)
         {
-            string jsonString = ReadDataBase_generic("Database");
-            Building databse = JsonConvert.DeserializeObject<Building>(jsonString);
+            //string jsonString = ReadDataBase_generic("Database");
+            string path = 
+                $"{Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName).FullName).FullName).FullName}" +
+                $"{Path.DirectorySeparatorChar}Grasshopper" +
+                $"{Path.DirectorySeparatorChar}Database.json";
+            string json = string.Empty;
+
+            using (StreamReader streamReader = new StreamReader(path, Encoding.UTF8))
+            {
+                json = streamReader.ReadToEnd();
+            }
+
+            Building databse = JsonConvert.DeserializeObject<Building>(json);
 
 
             Building building = new Building();

@@ -78,9 +78,9 @@ namespace SnitchGrasshopper.Component.Object
             SnitchCommon.Wall wall = new SnitchCommon.Wall
             {
                 Mesh = mesh,
-                Volume_concrete_m3 = 0.0,
-                Mass_steel_m3 = 0.0,
-                ConcreteClass = "",
+                Volume_concrete_m3 = concreteVolume,
+                Mass_steel_m3 = steelMass,
+                ConcreteClass = concreteClass,
                 //Load = load,
             };
 
