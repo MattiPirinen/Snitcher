@@ -75,7 +75,7 @@ namespace SnitchCommon
 
         private void Set_weight_concrete_N()
         {
-            this.Weight_concrete_N = this.Volume_concrete_m3 * 24000;
+            this.Weight_concrete_N = this.Volume_concrete_m3 * 2400;
         }
 
         private void Set_CO2_concrete()
