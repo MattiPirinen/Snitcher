@@ -1,0 +1,9 @@
+C:\GIT\Snitcher\SnitchRhinoPlugin\bin\Debug\net48\SnitchRhinoPlugin.rhp
+C:\GIT\Snitcher\SnitchRhinoPlugin\bin\Debug\net48\SnitchRhinoPlugin.pdb
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.csproj.AssemblyReference.cache
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.AssemblyInfoInputs.cache
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.AssemblyInfo.cs
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.csproj.CoreCompileInputs.cache
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.rhp
+C:\GIT\Snitcher\SnitchRhinoPlugin\obj\Debug\net48\SnitchRhinoPlugin.pdb

@@ -1,0 +1,6 @@
+C:\GIT\Snitcher\SnitchTekla\bin\Debug\SnitchTekla.dll
+C:\GIT\Snitcher\SnitchTekla\bin\Debug\SnitchTekla.pdb
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.AssemblyReference.cache
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.CoreCompileInputs.cache
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.dll
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.pdb
