@@ -93,7 +93,7 @@ namespace SnitchCommon
             this.Weight_concrete_N = this.Volume_concrete_m3 * 24000;
         }
 
-        private void Set_CO2_concrete()
+        protected virtual void Set_CO2_concrete()
         {
             double mass_concrete_kg = this.Weight_concrete_N / this.G;
             double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
@@ -103,8 +103,8 @@ namespace SnitchCommon
             else
                 this.CO2.Concrete = kgCo2PerKgConcrete * mass_concrete_kg;
         }
-        
-        private void Set_CO2_steel()
+
+        protected virtual void Set_CO2_steel()
         {
             this.CO2.Steel = 0.67 * Get_mass_steel_kg();
         }

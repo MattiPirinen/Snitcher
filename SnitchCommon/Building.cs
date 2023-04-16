@@ -139,7 +139,7 @@ namespace SnitchCommon
         {
             return new CO2Emission()
             {
-                Total = 1000
+                Total = 76.0
             };
         }
 
