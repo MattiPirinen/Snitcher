@@ -23,7 +23,7 @@ namespace SnitchCommon
 
         //------------------------ METHODS ---------------------------
 
-        public void CalculateProperties(AverageCo2Values averageCo2Values)
+        public void CalculateProperties(CO2Emission co2)
         {
             Set_weight_steel_N();
             Set_weight_concrete_N();
@@ -31,14 +31,12 @@ namespace SnitchCommon
             Set_CO2_concrete();
             Set_CO2_steel();
 
-            CalculateScore(averageCo2Values);
+            CalculateScore(co2);
         }
 
-        private void CalculateScore(AverageCo2Values averageCo2Values)
+        private void CalculateScore(CO2Emission co2)
         {
-            double ref_val = ChooseReferenceValue(averageCo2Values);
-
-            this.Score = this.CO2.Total / ref_val - 1;
+            this.Score = this.CO2.Total / co2.Total - 1;
         }
 
         private double ChooseReferenceValue(AverageCo2Values averageCo2Values)

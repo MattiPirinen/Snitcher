@@ -2,8 +2,10 @@
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SnitchCommon
 {
@@ -39,49 +41,79 @@ namespace SnitchCommon
         public CO2Emission CO2_walls { get; set; }
 
         
-        public Dictionary<Guid, BuildingMember_base> Beams { get; set; }
-        public Dictionary<Guid, BuildingMember_base> Columns{ get; set; }
-        public Dictionary<Guid, BuildingMember_base> Slabs { get; set; }
-        public Dictionary<Guid, BuildingMember_base> Walls { get; set; }
+        public Dictionary<Guid, Beam> Beams { get; set; }
+        public Dictionary<Guid, Column> Columns{ get; set; }
+        public Dictionary<Guid, Slab> Slabs { get; set; }
+        public Dictionary<Guid, Wall> Walls { get; set; }
 
 
         //------------------------ METHODS ---------------------------
 
         private void AssignProperties()
         {
-            this.Beams = new Dictionary<Guid, BuildingMember_base>();
-            this.Columns = new Dictionary<Guid, BuildingMember_base>();
-            this.Slabs = new Dictionary<Guid, BuildingMember_base>();
-            this.Walls= new Dictionary<Guid, BuildingMember_base>();
+            this.Beams = new Dictionary<Guid, Beam>();
+            this.Columns = new Dictionary<Guid, Column>();
+            this.Slabs = new Dictionary<Guid, Slab>();
+            this.Walls= new Dictionary<Guid, Wall>();
 
             this.DistributedLoad_live = 4000; // N/m2
         }
 
-        private void InitiateObjectList()
+        //private void InitiateObjectList()
+        //{
+        //    BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
+        //    {
+        //        this.Beams,
+        //        this.Columns,
+        //        this.Walls,
+        //        this.Slabs
+        //    };
+        //}
+
+        public void Calculate_CO2_and_score(List<Building> dataBaseBuildings)
         {
-            BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
+            foreach (KeyValuePair<Guid, Column> kvp in Columns)
             {
-                this.Beams,
-                this.Columns,
-                this.Walls,
-                this.Slabs
-            };
+                CO2Emission co2_ref = Get_co2_fromClosest_column(dataBaseBuildings.SelectMany(db => db.Columns.Values).ToList(), kvp.Value);
+                kvp.Value.CalculateProperties(co2_ref);
+
+                CollectCO2(kvp.Value);
+            }
+
+            foreach (KeyValuePair<Guid, Slab> kvp in Slabs)
+            {
+                CO2Emission co2_ref = Get_co2_fromClosest_slab();
+                kvp.Value.CalculateProperties(co2_ref);
+
+                CollectCO2(kvp.Value);
+            }
         }
 
-        public void Calculate_CO2_and_score(AverageCo2Values averageCo2Values)
+        private CO2Emission Get_co2_fromClosest_column(List<Column> list_in_base, Column column_curr)
         {
+            List<Column> list_in_columns = new List<Column>();
 
-            InitiateObjectList();
+            list_in_base.ForEach(x => list_in_columns.Add(x));
 
-            foreach (Dictionary<Guid, BuildingMember_base> dict in BuildingObjectsList)
+            List<(double, Column)> list_diff = new List<(double, Column)>();
+
+            foreach (Column col_in in list_in_columns)
             {
-                foreach (KeyValuePair<Guid, BuildingMember_base> kvp in dict)
-                {
-                    kvp.Value.CalculateProperties(averageCo2Values);
-
-                    CollectCO2(kvp.Value);
-                }
+                double diff = Math.Abs(col_in.NormalForce - column_curr.NormalForce);
+                list_diff.Add((diff, col_in));
             }
+
+            List<(double, Column)> list_diff_sorted = list_diff.OrderBy(x => x.Item1).ToList();
+
+            return list_diff_sorted[0].Item2.CO2;
+        }
+        
+        private CO2Emission Get_co2_fromClosest_slab()
+        {
+            return new CO2Emission()
+            {
+                Total = 1000
+            };
         }
 
         private void CollectCO2(BuildingMember_base obj)

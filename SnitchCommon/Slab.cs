@@ -26,6 +26,6 @@ namespace SnitchCommon
         public double Load { get; set; }
 
         //------------------------ METHODS ---------------------------
-
+            
     }
 }
