@@ -89,6 +89,33 @@ namespace SnitchCommon
             }
         }
 
+        public void Calculate_CO2()
+        {
+            CO2_columns = new CO2Emission();
+            CO2_slabs = new CO2Emission();
+            CO2_total = new CO2Emission();
+
+            foreach (KeyValuePair<Guid, Column> kvp in Columns)
+            {
+                kvp.Value.CalculateCO2();
+                CO2_columns.Steel += kvp.Value.CO2.Steel;
+                CO2_columns.Concrete += kvp.Value.CO2.Concrete;
+                CO2_columns.Total += kvp.Value.CO2.Steel + kvp.Value.CO2.Concrete;
+            }
+
+            foreach (KeyValuePair<Guid, Slab> kvp in Slabs)
+            {
+                kvp.Value.CalculateCO2();
+                CO2_slabs.Steel += kvp.Value.CO2.Steel;
+                CO2_slabs.Concrete += kvp.Value.CO2.Concrete;
+                CO2_slabs.Total += kvp.Value.CO2.Steel + kvp.Value.CO2.Concrete;
+            }
+
+            CO2_total.Concrete = CO2_columns.Concrete + CO2_slabs.Concrete;
+            CO2_total.Steel = CO2_columns.Steel + CO2_slabs.Steel;
+            CO2_total.Total = CO2_columns.Total + CO2_slabs.Total;
+        }
+
         private CO2Emission Get_co2_fromClosest_column(List<Column> list_in_base, Column column_curr)
         {
             List<Column> list_in_columns = new List<Column>();

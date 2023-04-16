@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
 
 namespace SnitchCommon
@@ -32,6 +33,20 @@ namespace SnitchCommon
             Set_CO2_steel();
 
             CalculateScore(co2);
+        }
+        public void CalculateCO2()
+        {
+            Set_weight_steel_N();
+            Set_weight_concrete_N();
+
+            Set_CO2_concrete();
+            Set_CO2_steel();
+            Set_CO2_total();
+        }
+
+        private void Set_CO2_total()
+        {
+            CO2.Total = CO2.Steel + CO2.Concrete;
         }
 
         private void CalculateScore(CO2Emission co2)
@@ -84,7 +99,7 @@ namespace SnitchCommon
             double kgCo2PerKgConcrete = this.Get_CO2_emissionFactor();
 
             if (double.IsNaN(kgCo2PerKgConcrete))
-                CO2.Concrete = double.NaN;
+                CO2.Concrete = 0.0;
             else
                 this.CO2.Concrete = kgCo2PerKgConcrete * mass_concrete_kg;
         }
@@ -100,7 +115,7 @@ namespace SnitchCommon
                 return this.Co2EmissionsOfConcrete[this.ConcreteClass];
             else
             {
-                return double.NaN;
+                return 0.0;
             }
         }
 

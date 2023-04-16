@@ -101,9 +101,12 @@ namespace SnitchGrasshopper.Component.Model
 
             AddLoadingAreas();
             Building.SetColumnLoads();
+            this.Building.Calculate_CO2();
 
             AssignOutputVariables(DA);
         }
+
+
 
         private void AddLoadingAreas()
         {
