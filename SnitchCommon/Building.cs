@@ -20,6 +20,7 @@ namespace SnitchCommon
         {
             AssignProperties();
             DetectAndPopulateObjects(gh_inputObjs);
+            ProcessFloorInformation();
         }
 
         //----------------------- PROPERTIES -------------------------
@@ -115,7 +116,9 @@ namespace SnitchCommon
 
         private void DetectAndPopulateObject(BuildingMember_base item)
         {
-            if (item is Beam beam)
+            if (item is null)
+                return;
+            else if (item is Beam beam)
             {
                 this.Beams.Add(beam.Guid, beam);
             }
