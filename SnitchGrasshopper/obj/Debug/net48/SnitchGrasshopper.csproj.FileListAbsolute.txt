@@ -1,0 +1,16 @@
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\SnitchGrasshopper.gha
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\SnitchGrasshopper.pdb
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\SnitchCommon.dll
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\DelanayClassLibrary.dll
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\SnitchCommon.pdb
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.AssemblyReference.cache
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.Properties.Resources.resources
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.GenerateResource.cache
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.GeneratedMSBuildEditorConfig.editorconfig
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.AssemblyInfoInputs.cache
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.AssemblyInfo.cs
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CoreCompileInputs.cache
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CopyComplete
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.gha
+C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.pdb
+C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\Newtonsoft.Json.dll

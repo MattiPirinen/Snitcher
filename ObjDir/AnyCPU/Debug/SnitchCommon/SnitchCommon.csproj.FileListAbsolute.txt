@@ -1,0 +1,12 @@
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\SnitchCommon.dll
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\SnitchCommon.pdb
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\DelanayClassLibrary.dll
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\RhinoCommon.dll
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\RhinoCommon.xml
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.AssemblyReference.cache
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.CoreCompileInputs.cache
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.CopyComplete
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.dll
+C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.pdb
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\Newtonsoft.Json.dll
+C:\GIT\Snitcher\SnitchCommon\bin\Debug\Newtonsoft.Json.xml

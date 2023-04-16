@@ -1,0 +1,2 @@
+C:\GIT\Snitcher\SnitchCommon\obj\Debug\SnitchCommon.csproj.AssemblyReference.cache
+C:\GIT\Snitcher\SnitchCommon\obj\Debug\SnitchCommon.csproj.CoreCompileInputs.cache
