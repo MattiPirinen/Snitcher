@@ -4,3 +4,9 @@ C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.AssemblyRefer
 C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.CoreCompileInputs.cache
 C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.dll
 C:\GIT\Snitcher\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.pdb
+C:\Users\pima\source\repos\Snitch\SnitchTekla\bin\Debug\SnitchTekla.dll
+C:\Users\pima\source\repos\Snitch\SnitchTekla\bin\Debug\SnitchTekla.pdb
+C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.AssemblyReference.cache
+C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.csproj.CoreCompileInputs.cache
+C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.dll
+C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchTekla\SnitchTekla.pdb

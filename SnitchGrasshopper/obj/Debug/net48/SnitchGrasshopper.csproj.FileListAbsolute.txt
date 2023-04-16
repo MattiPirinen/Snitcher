@@ -14,3 +14,5 @@ C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CopyC
 C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.gha
 C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.pdb
 C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\Newtonsoft.Json.dll
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.gha
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.pdb
