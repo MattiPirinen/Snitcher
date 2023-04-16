@@ -78,9 +78,9 @@ namespace SnitchGrasshopper.Component.Object
                 Mesh = mesh,                
                 Height = polyline.Length,
                 CenterLine = new Line(polyline[0], polyline[polyline.Count -1]),
-                Volume_concrete_m3 = 0.0,
-                Mass_steel_m3 = 0.0,
-                ConcreteClass = "",
+                Volume_concrete_m3 = concreteVolume,
+                Mass_steel_m3 = steelMass,
+                ConcreteClass = concreteClass,
                 NormalForce = load,
             };
 

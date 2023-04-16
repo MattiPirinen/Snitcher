@@ -1,7 +1,11 @@
-﻿using Rhino.Geometry;
+﻿using Newtonsoft.Json;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SnitchCommon
 {
@@ -11,7 +15,7 @@ namespace SnitchCommon
 
         public Building()
         {
-            AssignProperties();
+            
         }
 
         public Building(List<BuildingMember_base> gh_inputObjs)
@@ -22,8 +26,13 @@ namespace SnitchCommon
         }
 
         //----------------------- PROPERTIES -------------------------
+
+        [JsonIgnore]
+        public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
+
+
         public int FloorQty_total { get; set; }
-        public double DistributedLoad_live { get; set; }
+        public double DistributedLoad_live { get; set; } 
 
         public CO2Emission CO2_total { get; set; }
         public CO2Emission CO2_beams { get; set; }
@@ -31,69 +40,126 @@ namespace SnitchCommon
         public CO2Emission CO2_slabs { get; set; }
         public CO2Emission CO2_walls { get; set; }
 
-        public List<Dictionary<Guid, BuildingMember_base>> BuildingObjectsList { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Beams { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Columns{ get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Slabs { get; private set; }
-        public Dictionary<Guid, BuildingMember_base> Walls { get; private set; }
+        
+        public Dictionary<Guid, Beam> Beams { get; set; }
+        public Dictionary<Guid, Column> Columns{ get; set; }
+        public Dictionary<Guid, Slab> Slabs { get; set; }
+        public Dictionary<Guid, Wall> Walls { get; set; }
 
 
         //------------------------ METHODS ---------------------------
 
         private void AssignProperties()
         {
-            this.Beams = new Dictionary<Guid, BuildingMember_base>();
-            this.Columns = new Dictionary<Guid, BuildingMember_base>();
-            this.Slabs = new Dictionary<Guid, BuildingMember_base>();
-            this.Walls= new Dictionary<Guid, BuildingMember_base>();
+            this.Beams = new Dictionary<Guid, Beam>();
+            this.Columns = new Dictionary<Guid, Column>();
+            this.Slabs = new Dictionary<Guid, Slab>();
+            this.Walls= new Dictionary<Guid, Wall>();
 
-            this.DistributedLoad_live = 2000; // N/m2
+            this.DistributedLoad_live = 4000; // N/m2
         }
 
-        private void InitiateObjectList()
+        //private void InitiateObjectList()
+        //{
+        //    BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
+        //    {
+        //        this.Beams,
+        //        this.Columns,
+        //        this.Walls,
+        //        this.Slabs
+        //    };
+        //}
+
+        public void Calculate_CO2_and_score(List<Building> dataBaseBuildings)
         {
-            this.BuildingObjectsList = new List<Dictionary<Guid, BuildingMember_base>>()
+            foreach (KeyValuePair<Guid, Column> kvp in Columns)
             {
-                this.Beams,
-                this.Columns,
-                this.Walls,
-                this.Slabs
-            };
-        }
+                CO2Emission co2_ref = Get_co2_fromClosest_column(dataBaseBuildings.SelectMany(db => db.Columns.Values).ToList(), kvp.Value);
+                kvp.Value.CalculateProperties(co2_ref);
 
-        public void Calculate_CO2_and_score(AverageCo2Values averageCo2Values)
-        {
-            
-            InitiateObjectList();
-
-            foreach (Dictionary<Guid, BuildingMember_base> dict in this.BuildingObjectsList)
-            {
-                foreach (KeyValuePair<Guid, BuildingMember_base> kvp in dict)
-                {
-                    kvp.Value.CalculateProperties(averageCo2Values);
-
-                    CollectCO2(kvp.Value);
-                }
+                CollectCO2(kvp.Value);
             }
+
+            foreach (KeyValuePair<Guid, Slab> kvp in Slabs)
+            {
+                CO2Emission co2_ref = Get_co2_fromClosest_slab();
+                kvp.Value.CalculateProperties(co2_ref);
+
+                CollectCO2(kvp.Value);
+            }
+        }
+
+        public void Calculate_CO2()
+        {
+            CO2_columns = new CO2Emission();
+            CO2_slabs = new CO2Emission();
+            CO2_total = new CO2Emission();
+
+            foreach (KeyValuePair<Guid, Column> kvp in Columns)
+            {
+                kvp.Value.CalculateCO2();
+                CO2_columns.Steel += kvp.Value.CO2.Steel;
+                CO2_columns.Concrete += kvp.Value.CO2.Concrete;
+                CO2_columns.Total += kvp.Value.CO2.Steel + kvp.Value.CO2.Concrete;
+            }
+
+            foreach (KeyValuePair<Guid, Slab> kvp in Slabs)
+            {
+                kvp.Value.CalculateCO2();
+                CO2_slabs.Steel += kvp.Value.CO2.Steel;
+                CO2_slabs.Concrete += kvp.Value.CO2.Concrete;
+                CO2_slabs.Total += kvp.Value.CO2.Steel + kvp.Value.CO2.Concrete;
+            }
+
+            CO2_total.Concrete = CO2_columns.Concrete + CO2_slabs.Concrete;
+            CO2_total.Steel = CO2_columns.Steel + CO2_slabs.Steel;
+            CO2_total.Total = CO2_columns.Total + CO2_slabs.Total;
+        }
+
+        private CO2Emission Get_co2_fromClosest_column(List<Column> list_in_base, Column column_curr)
+        {
+            List<Column> list_in_columns = new List<Column>();
+
+            list_in_base.ForEach(x => list_in_columns.Add(x));
+
+            List<(double, Column)> list_diff = new List<(double, Column)>();
+
+            foreach (Column col_in in list_in_columns)
+            {
+                double diff = Math.Abs(col_in.NormalForce - column_curr.NormalForce);
+                list_diff.Add((diff, col_in));
+            }
+
+            List<(double, Column)> list_diff_sorted = list_diff.OrderBy(x => x.Item1).ToList();
+
+            return list_diff_sorted[0].Item2.CO2;
+        }
+        
+        private CO2Emission Get_co2_fromClosest_slab()
+        {
+            return new CO2Emission()
+            {
+                Total = 1000
+            };
         }
 
         private void CollectCO2(BuildingMember_base obj)
         {
             this.CO2_total.CollectCO2(obj.CO2);
 
-            if(obj is Beam) 
-            { 
-                this.CO2_beams.CollectCO2(obj.CO2); 
+            if (obj is Beam)
+            {
+                this.CO2_beams.CollectCO2(obj.CO2);
             }
-            else if(obj is Column)
+            else if (obj is Column)
             {
                 this.CO2_columns.CollectCO2(obj.CO2);
             }
-            else if(obj is Wall)
+            else if (obj is Wall)
             {
                 this.CO2_walls.CollectCO2(obj.CO2);
             }
-            else if(obj is Slab)
+            else if (obj is Slab)
             {
                 this.CO2_slabs.CollectCO2(obj.CO2);
             }
@@ -109,19 +175,21 @@ namespace SnitchCommon
 
         private void DetectAndPopulateObject(BuildingMember_base item)
         {
-            if(item is Beam beam) 
-            { 
-                this.Beams.Add(beam.Guid, beam); 
+            if (item is null)
+                return;
+            else if (item is Beam beam)
+            {
+                this.Beams.Add(beam.Guid, beam);
             }
-            else if(item is Column column)
+            else if (item is Column column)
             {
                 this.Columns.Add(column.Guid, column);
             }
-            else if(item is Wall wall)
+            else if (item is Wall wall)
             {
                 this.Walls.Add(wall.Guid, wall);
             }
-            else if(item is Slab slab)
+            else if (item is Slab slab)
             {
                 this.Slabs.Add(slab.Guid, slab);
             }
@@ -131,14 +199,14 @@ namespace SnitchCommon
             }
         }
 
-        
+
         private void ProcessFloorInformation()
         {
             List<KeyValuePair<double, List<Column>>> list = CollectFloorColumns();
 
             this.FloorQty_total = list.Count;
 
-            SetFloorNumberAndLoadToColumns(list);
+            SetFloorNumberToColumns(list);
         }
 
         private List<KeyValuePair<double, List<Column>>> CollectFloorColumns()
@@ -164,20 +232,29 @@ namespace SnitchCommon
             return list.OrderBy(l => l.Key).ToList();
         }
 
-        private void SetFloorNumberAndLoadToColumns(List<KeyValuePair<double, List<Column>>> list)
+        private void SetFloorNumberToColumns(List<KeyValuePair<double, List<Column>>> list)
         {
-            for (int i = 1; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 KeyValuePair<double, List<Column>> kvp = list[i];
 
                 foreach (Column column in kvp.Value)
                 {
-                    column.FloorNo = i;
+                    column.FloorNo = i + 1;
 
-                    column.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
+                    
                 }
 
 
+            }
+        }
+
+        public void SetColumnLoads()
+        {
+            foreach (var column in Columns.Values)
+            {
+                Column col = (Column)column;
+                col.CalculateLoad(this.FloorQty_total, this.DistributedLoad_live);
             }
         }
 
