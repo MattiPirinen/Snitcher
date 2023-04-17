@@ -16,3 +16,17 @@ C:\GIT\Snitcher\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.pdb
 C:\GIT\Snitcher\SnitchGrasshopper\bin\Debug\net48\Newtonsoft.Json.dll
 C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.gha
 C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.pdb
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\SnitchGrasshopper.gha
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\SnitchGrasshopper.pdb
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\Newtonsoft.Json.dll
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\SnitchCommon.dll
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\DelanayClassLibrary.dll
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\SnitchCommon.pdb
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.AssemblyReference.cache
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.Properties.Resources.resources
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.GenerateResource.cache
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.AssemblyInfoInputs.cache
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.AssemblyInfo.cs
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CoreCompileInputs.cache
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CopyComplete

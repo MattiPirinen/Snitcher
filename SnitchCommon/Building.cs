@@ -105,10 +105,11 @@ namespace SnitchCommon
 
             foreach (KeyValuePair<Guid, Slab> kvp in Slabs)
             {
+                double area = AreaMassProperties.Compute(kvp.Value.Boundary.ToNurbsCurve()).Area*Math.Pow(10,-6);
                 kvp.Value.CalculateCO2();
-                CO2_slabs.Steel += kvp.Value.CO2.Steel;
-                CO2_slabs.Concrete += kvp.Value.CO2.Concrete;
-                CO2_slabs.Total += kvp.Value.CO2.Steel + kvp.Value.CO2.Concrete;
+                CO2_slabs.Steel += kvp.Value.CO2.Steel* area;
+                CO2_slabs.Concrete += kvp.Value.CO2.Concrete* area;
+                CO2_slabs.Total += kvp.Value.CO2.Steel* area + kvp.Value.CO2.Concrete* area;
             }
 
             CO2_total.Concrete = CO2_columns.Concrete + CO2_slabs.Concrete;

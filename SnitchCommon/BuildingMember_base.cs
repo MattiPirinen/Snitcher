@@ -80,7 +80,7 @@ namespace SnitchCommon
 
         private double Get_mass_steel_kg()
         {
-            return this.Mass_steel_m3 * 7850;
+            return this.Mass_steel_m3;
         }
 
         private void Set_weight_steel_N()
@@ -90,7 +90,7 @@ namespace SnitchCommon
 
         private void Set_weight_concrete_N()
         {
-            this.Weight_concrete_N = this.Volume_concrete_m3 * 2400;
+            this.Weight_concrete_N = this.Volume_concrete_m3 * 24000;
         }
 
         protected virtual void Set_CO2_concrete()

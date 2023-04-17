@@ -28,12 +28,15 @@ namespace SnitchCommon
         //------------------------ METHODS ---------------------------
         override protected void Set_CO2_concrete()
         {
-            double area = AreaMassProperties.Compute(this.Boundary.ToNurbsCurve()).Area; ;
+            double area = AreaMassProperties.Compute(this.Boundary.ToNurbsCurve()).Area * Math.Pow(10, -6);
             base.Set_CO2_concrete();
-            base.Set_CO2_steel();
             CO2.Concrete = CO2.Concrete / area;
+        }
+        protected override void Set_CO2_steel()
+        {
+            double area = AreaMassProperties.Compute(this.Boundary.ToNurbsCurve()).Area * Math.Pow(10, -6);
+            base.Set_CO2_steel();
             CO2.Steel = CO2.Steel / area;
-            CO2.Total = CO2.Total / area;
         }
     }
 }
