@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using SnitchCommon;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using Grasshopper;
+using System.IO;
+using Grasshopper.Kernel.Data;
 
 namespace SnitchGrasshopper.Component.HelpComponent
 {
@@ -34,7 +37,7 @@ namespace SnitchGrasshopper.Component.HelpComponent
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("Line", "Line", "Line", GH_ParamAccess.list);
+            pManager.AddCurveParameter("Line", "Line", "Line", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -64,8 +67,36 @@ namespace SnitchGrasshopper.Component.HelpComponent
             }
             List<Point2d> bpts2d = new List<Point2d>();
 
-            List<Line> lines = StaticMethods.CreateVoronoi(pts2d, pl, bb);
-            DA.SetDataList(0, lines);
+            VoronoiModel model = StaticMethods.CreateVoronoi(pts2d, pl, bb);
+
+            List<List<Line>> lines = new List<List<Line>>();
+            foreach (var node in model.Nodes)
+            {
+                List<Line> l = new List<Line>();
+                foreach (var item in node.VoronoiLines)
+                {
+                    l.Add(item.Line);
+                }
+                lines.Add(l);
+            }
+
+            DataTree<Curve> tree= new DataTree<Curve>();
+            /*
+            int i = 0;
+            foreach (var line in lines) 
+            {
+                GH_Path p = new GH_Path(i);
+                tree.AddRange(line, p);
+                i++;
+            }
+            */
+            List<Curve> polylines = new List<Curve>();
+            foreach (var pl1 in model.Cells)
+                polylines.Add(pl1.ToNurbsCurve());
+
+            tree.AddRange(polylines, new GH_Path(0));
+
+            DA.SetDataList(0, polylines);
         }
 
         /// <summary>

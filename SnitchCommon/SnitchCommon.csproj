@@ -63,6 +63,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slab.cs" />
     <Compile Include="StaticMethods.cs" />
+    <Compile Include="VoronoiLine.cs" />
+    <Compile Include="VoronoiModel.cs" />
+    <Compile Include="VoronoiNode.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
