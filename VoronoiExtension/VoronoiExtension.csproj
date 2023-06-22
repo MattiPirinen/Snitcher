@@ -1,20 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\TeklaOpenAPI.2021.0.1\build\TeklaOpenAPI.props" Condition="Exists('..\packages\TeklaOpenAPI.2021.0.1\build\TeklaOpenAPI.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{64385D15-555F-405B-B928-C558080DC45B}</ProjectGuid>
+    <ProjectGuid>{57078AB3-74B2-4B8E-8E4B-A825BD1C8D9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnitchCommon</RootNamespace>
-    <AssemblyName>SnitchCommon</AssemblyName>
+    <RootNamespace>VoronoiExtension</RootNamespace>
+    <AssemblyName>VoronoiExtension</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,9 +34,6 @@
     <Reference Include="DelanayClassLibrary">
       <HintPath>..\ExternalReferences\DelanayClassLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="RhinoCommon">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 7\System\RhinoCommon.dll</HintPath>
     </Reference>
@@ -53,32 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AverageCo2Values.cs" />
-    <Compile Include="Beam.cs" />
-    <Compile Include="Building.cs" />
-    <Compile Include="BuildingMember_base.cs" />
-    <Compile Include="Building_base.cs" />
-    <Compile Include="CO2Emission.cs" />
-    <Compile Include="Column.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Slab.cs" />
-    <Compile Include="StaticMethods.cs" />
-    <Compile Include="Wall.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VoronoiExtension\VoronoiExtension.csproj">
-      <Project>{57078ab3-74b2-4b8e-8e4b-a825bd1c8d9f}</Project>
-      <Name>VoronoiExtension</Name>
-    </ProjectReference>
+    <Compile Include="VoronoiCell.cs" />
+    <Compile Include="VoronoiLine.cs" />
+    <Compile Include="VoronoiModel.cs" />
+    <Compile Include="VoronoiNode.cs" />
+    <Compile Include="VoronoiPointCloud.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\TeklaOpenAPI.2021.0.1\build\TeklaOpenAPI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TeklaOpenAPI.2021.0.1\build\TeklaOpenAPI.props'))" />
-  </Target>
 </Project>

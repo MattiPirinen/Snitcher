@@ -21,7 +21,6 @@ C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\ConsoleApp_
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\ConsoleApp_testing_pooya.pdb
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\Newtonsoft.Json.dll
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\SnitchCommon.dll
-C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\DelanayClassLibrary.dll
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\SnitchCommon.pdb
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\Newtonsoft.Json.xml
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\RhinoCommon.xml

@@ -6,6 +6,7 @@ using Rhino.Geometry;
 using Grasshopper;
 using System.IO;
 using Grasshopper.Kernel.Data;
+using VoronoiExtension;
 
 namespace SnitchGrasshopper.Component.HelpComponent
 {
@@ -65,12 +66,11 @@ namespace SnitchGrasshopper.Component.HelpComponent
             {
                 pts2d.Add(new Point2d(item.X,item.Y));
             }
-            List<Point2d> bpts2d = new List<Point2d>();
 
-            VoronoiModel model = StaticMethods.CreateVoronoi(pts2d, pl, bb);
+            VoronoiModel model = VoronoiModel.CreateVoronoi(pts2d, pl, bb);
 
             List<List<Line>> lines = new List<List<Line>>();
-            foreach (var node in model.Nodes)
+            foreach (var node in model.NodeCloud.Nodes)
             {
                 List<Line> l = new List<Line>();
                 foreach (var item in node.VoronoiLines)
@@ -92,7 +92,7 @@ namespace SnitchGrasshopper.Component.HelpComponent
             */
             List<Curve> polylines = new List<Curve>();
             foreach (var pl1 in model.Cells)
-                polylines.Add(pl1.ToNurbsCurve());
+                polylines.Add(pl1.Perimeter.ToNurbsCurve());
 
             tree.AddRange(polylines, new GH_Path(0));
 

@@ -11,7 +11,11 @@
         "projectPath": "C:\\Users\\pima\\source\\repos\\Snitch\\SnitchCommon\\SnitchCommon.csproj",
         "frameworks": {
           "net48": {
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\pima\\source\\repos\\Snitch\\VoronoiExtension\\VoronoiExtension.csproj": {
+                "projectPath": "C:\\Users\\pima\\source\\repos\\Snitch\\VoronoiExtension\\VoronoiExtension.csproj"
+              }
+            }
           }
         }
       },
@@ -71,6 +75,21 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\pima\\source\\repos\\Snitch\\VoronoiExtension\\VoronoiExtension.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\pima\\source\\repos\\Snitch\\VoronoiExtension\\VoronoiExtension.csproj",
+        "projectName": "VoronoiExtension",
+        "projectPath": "C:\\Users\\pima\\source\\repos\\Snitch\\VoronoiExtension\\VoronoiExtension.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
       }
     }
   }

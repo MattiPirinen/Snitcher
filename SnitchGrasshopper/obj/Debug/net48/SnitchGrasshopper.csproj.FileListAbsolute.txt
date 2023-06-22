@@ -30,3 +30,5 @@ C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrassh
 C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.AssemblyInfo.cs
 C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CoreCompileInputs.cache
 C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\obj\Debug\net48\SnitchGrasshopper.csproj.CopyComplete
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\VoronoiExtension.dll
+C:\Users\pima\source\repos\Snitch\SnitchGrasshopper\bin\Debug\net48\VoronoiExtension.pdb

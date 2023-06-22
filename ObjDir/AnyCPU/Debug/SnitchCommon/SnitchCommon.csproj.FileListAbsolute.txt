@@ -22,3 +22,5 @@ C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.dll
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.pdb
 C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\RhinoCommon.dll
+C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.dll
+C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.pdb

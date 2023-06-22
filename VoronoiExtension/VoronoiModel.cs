@@ -4,21 +4,25 @@ using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using delPoint = DelaunayVoronoi.Point;
 
-namespace SnitchCommon
+namespace VoronoiExtension
 {
     public class VoronoiModel
     {
-        public List<VoronoiNode> Nodes {get;set;} = new List<VoronoiNode>();
+        public VoronoiPointCloud NodeCloud {get;set;} = new VoronoiPointCloud();
         public List<VoronoiLine> Lines { get; set; } = new List<VoronoiLine>();
 
-        public List<Polyline> Cells { get; set; } 
+        public List<VoronoiCell> Cells { get; set; }  = new List<VoronoiCell>();
+
+
 
         public void ArrangeLinesInNodes()
         {
-            foreach (var node in Nodes)
+            foreach (var node in NodeCloud.Nodes)
             {
                 node.ArrangeLines();
             }
@@ -26,8 +30,8 @@ namespace SnitchCommon
 
         public void CreateCells()
         {
-            Cells = new List<Polyline>();
-            foreach (var node in Nodes)
+            Cells = new List<VoronoiCell>();
+            foreach (var node in NodeCloud.Nodes)
             {
                 foreach (var line in node.VoronoiLines)
                 {
@@ -36,9 +40,34 @@ namespace SnitchCommon
                     else if (line.UsedClockWise && line.UsedCounterClockWise) continue;
                     if (!line.UsedClockWise)
                         CreateCell(line,node, true);
+                    if (!line.UsedCounterClockWise)
+                        CreateCell(line, node, false);
                 }
             }
+            RemoveDuplicateCells();
+        }
 
+        private void RemoveDuplicateCells()
+        {
+            List<VoronoiCell> pls = new List<VoronoiCell>();
+            PointCloud pl = new PointCloud();
+            foreach (var cell in Cells)
+            {
+                Point3d pt = AreaMassProperties.Compute(cell.Perimeter.ToNurbsCurve()).Centroid;
+                int i = pl.ClosestPoint(pt);
+                if (i == -1)
+                {
+                    pls.Add(cell);
+                }
+                else
+                {
+                    if ((pl[i].Location - pt).Length > 0.001)
+                        pls.Add(cell);
+                }
+                pl.Add(pt);
+
+            }
+            Cells = pls;
         }
 
         private void CreateCell(VoronoiLine line, VoronoiNode startNode, bool clockWise)
@@ -46,41 +75,51 @@ namespace SnitchCommon
             try
             {
                 List<Curve> cellLines = new List<Curve>();
-                GetLineAndMoveNext(line, cellLines, startNode, startNode, clockWise);
-                Curve c = Curve.JoinCurves(cellLines)[0];
-                c.TryGetPolyline(out Polyline pl);
-                Cells.Add(pl);
+                if (GetLineAndMoveNext(line, cellLines, startNode, startNode, clockWise))
+                {
+                    Curve c = Curve.JoinCurves(cellLines)[0];
+                    c.TryGetPolyline(out Polyline pl);
+                    Point3d pt =pl.CenterPoint();
+                    int index = NodeCloud.ClosestPoint(pt);
+
+                    Cells.Add(new VoronoiCell() { Perimeter = pl, Node = NodeCloud.Nodes[index] });
+                }
+                
             }
             catch { }
 
 
         }
 
-        private void GetLineAndMoveNext(VoronoiLine line, List<Curve> cellLines, VoronoiNode cellStartNode, VoronoiNode prevNode, bool clockWise)
+        private bool GetLineAndMoveNext(VoronoiLine line, List<Curve> cellLines, VoronoiNode cellStartNode, VoronoiNode prevNode, bool clockWise)
         {
+            //if (clockWise && line.UsedClockWise) return true;
             cellLines.Add(line.Line.ToNurbsCurve());
+            /*
             if (clockWise)
                 line.UsedClockWise = true;
             else
                 line.UsedCounterClockWise= true;
+            */
             if (line.StartNode == prevNode)
             {
                 if (line.EndNode == cellStartNode)
-                    return;
+                    return true;
                 if (clockWise)
-                    GetLineAndMoveNext(line.EndNodeNextLineClockWise,cellLines,cellStartNode,line.EndNode,clockWise);
+                    return GetLineAndMoveNext(line.EndNodeNextLineClockWise,cellLines,cellStartNode,line.EndNode,clockWise);
                 else
-                    GetLineAndMoveNext(line.EndNodeNextLineCounterClockWise, cellLines, cellStartNode, line.EndNode, clockWise);
+                    return GetLineAndMoveNext(line.EndNodeNextLineCounterClockWise, cellLines, cellStartNode, line.EndNode, clockWise);
             }
             else if (line.EndNode == prevNode)
             {
                 if (line.StartNode == cellStartNode)
-                    return;
+                    return true;
                 if (clockWise)
-                    GetLineAndMoveNext(line.StartNodeNextLineClockWise, cellLines, cellStartNode, line.StartNode, clockWise);
+                    return GetLineAndMoveNext(line.StartNodeNextLineClockWise, cellLines, cellStartNode, line.StartNode, clockWise);
                 else
-                    GetLineAndMoveNext(line.StartNodeNextLineCounterClockWise, cellLines, cellStartNode, line.StartNode, clockWise);
+                    return GetLineAndMoveNext(line.StartNodeNextLineCounterClockWise, cellLines, cellStartNode, line.StartNode, clockWise);
             }
+            return true;
         }
 
         public void CreateNodes()
@@ -121,8 +160,15 @@ namespace SnitchCommon
                     voronoiNodes.Add(roundedPtEnd, node);
                 }
             }
+            VoronoiPointCloud pl = new VoronoiPointCloud();
 
-            Nodes = voronoiNodes.Values.ToList();
+            List<VoronoiNode> nodes = voronoiNodes.Values.ToList();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                pl.Add(nodes[i].Location);
+                pl.Nodes.Add(nodes[i]);
+            }
+            NodeCloud = pl;
             ArrangeLinesInNodes();
         }
 
@@ -132,11 +178,11 @@ namespace SnitchCommon
             List<VoronoiLine> lines = new List<VoronoiLine>();
             foreach (var edge in vornoiEdges)
             {
-                Line l = new Line(StaticMethods.ToRhinoPoint(edge.Point1), StaticMethods.ToRhinoPoint(edge.Point2));
+                Line l = new Line(ToRhinoPoint(edge.Point1), ToRhinoPoint(edge.Point2));
                 if (l.Length > 0.0001)
                     lines.Add(new VoronoiLine(l));
             }
-            /*
+            
             Curve boarderc = boarder.ToNurbsCurve();
             int i = 0;
             while (i < lines.Count)
@@ -178,8 +224,47 @@ namespace SnitchCommon
                     lines.Add(new VoronoiLine(line) { IsEdgeLine= true});
                 }
             }
-            */
+            
             Lines = lines;
         }
+
+        public static VoronoiModel CreateVoronoi(List<Point2d> pts, Polyline boarder, BoundingBox bb)
+        {
+
+
+            DelaunayTriangulator delaunay = new DelaunayTriangulator();
+            Voronoi voronoi = new Voronoi();
+            List<delPoint> delanayPoints = new List<delPoint>();
+
+            foreach (var pt in pts)
+            {
+                delanayPoints.Add(new delPoint(pt.X, pt.Y));
+            }
+
+            List<delPoint> delBoarder = new List<delPoint>
+            {
+                new delPoint(bb.Min.X - 100000, bb.Min.Y - 100000),
+                new delPoint(bb.Max.X + 100000, bb.Min.Y - 100000),
+                new delPoint(bb.Max.X + 100000, bb.Max.Y + 100000),
+                new delPoint(bb.Min.X - 100000, bb.Max.Y + 100000)
+            };
+
+            delaunay.GenerateBoarder(delBoarder);
+
+
+            var triangulation = delaunay.BowyerWatson(delanayPoints);
+            var vornoiEdges = voronoi.GenerateEdgesFromDelaunay(triangulation);
+            VoronoiModel model = new VoronoiModel();
+            model.CreateLines(vornoiEdges, boarder);
+            model.CreateNodes();
+            model.CreateCells();
+            return model;
+        }
+
+        public static Point3d ToRhinoPoint(delPoint point1)
+        {
+            return new Point3d(point1.X, point1.Y, 0);
+        }
+
     }
 }

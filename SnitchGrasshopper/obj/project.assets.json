@@ -17,11 +17,23 @@
       },
       "SnitchCommon/1.0.0": {
         "type": "project",
+        "dependencies": {
+          "VoronoiExtension": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/SnitchCommon.dll": {}
         },
         "runtime": {
           "bin/placeholder/SnitchCommon.dll": {}
+        }
+      },
+      "VoronoiExtension/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/VoronoiExtension.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VoronoiExtension.dll": {}
         }
       }
     }
@@ -61,6 +73,11 @@
       "type": "project",
       "path": "../SnitchCommon/SnitchCommon.csproj",
       "msbuildProject": "../SnitchCommon/SnitchCommon.csproj"
+    },
+    "VoronoiExtension/1.0.0": {
+      "type": "project",
+      "path": "../VoronoiExtension/VoronoiExtension.csproj",
+      "msbuildProject": "../VoronoiExtension/VoronoiExtension.csproj"
     }
   },
   "projectFileDependencyGroups": {
