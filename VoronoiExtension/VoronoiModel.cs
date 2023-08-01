@@ -228,9 +228,14 @@ namespace VoronoiExtension
             Lines = lines;
         }
 
-        public static VoronoiModel CreateVoronoi(List<Point2d> pts, Polyline boarder, BoundingBox bb)
+        public static VoronoiModel CreateVoronoi(List<Point2d> pts, Polyline boarder)
         {
-
+            PointCloud pointl = new PointCloud();
+            for (int i = 0; i < pts.Count; i++)
+            {
+                pointl.Add(new Point3d(pts[i].X, pts[i].Y, 0));
+            }
+            BoundingBox bb = pointl.GetBoundingBox(false);
 
             DelaunayTriangulator delaunay = new DelaunayTriangulator();
             Voronoi voronoi = new Voronoi();

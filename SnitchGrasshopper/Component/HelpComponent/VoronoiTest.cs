@@ -67,7 +67,7 @@ namespace SnitchGrasshopper.Component.HelpComponent
                 pts2d.Add(new Point2d(item.X,item.Y));
             }
 
-            VoronoiModel model = VoronoiModel.CreateVoronoi(pts2d, pl, bb);
+            VoronoiModel model = VoronoiModel.CreateVoronoi(pts2d, pl);
 
             List<List<Line>> lines = new List<List<Line>>();
             foreach (var node in model.NodeCloud.Nodes)

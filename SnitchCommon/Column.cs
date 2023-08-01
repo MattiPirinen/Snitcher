@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SnitchCommon
 {
-    public class Column: BuildingMember_base
+    public class Column: MemberBase
     {
         //---------------------- CONSTRUCTORS ------------------------
 
@@ -19,7 +19,6 @@ namespace SnitchCommon
         public double Height { get; set; }
         public double LoadBearingArea { get; set; }
         public double NormalForce { get; set; }
-        public Line CenterLine { get; set; }
 
         //------------------------ METHODS ---------------------------
 

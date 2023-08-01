@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Rhino.Geometry;
+using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -41,10 +42,10 @@ namespace SnitchCommon
         public CO2Emission CO2_walls { get; set; }
 
         
-        public Dictionary<Guid, Beam> Beams { get; set; }
-        public Dictionary<Guid, Column> Columns{ get; set; }
-        public Dictionary<Guid, Slab> Slabs { get; set; }
-        public Dictionary<Guid, Wall> Walls { get; set; }
+        public Dictionary<Guid, Beam> Beams { get; set; } = new Dictionary<Guid, Beam>();
+        public Dictionary<Guid, Column> Columns { get; set; } = new Dictionary<Guid, Column>();
+        public Dictionary<Guid, Slab> Slabs { get; set; } = new Dictionary<Guid, Slab>();
+        public Dictionary<Guid, Wall> Walls { get; set; } = new Dictionary<Guid, Wall>();
 
 
         //------------------------ METHODS ---------------------------
@@ -259,5 +260,63 @@ namespace SnitchCommon
             }
         }
 
+        public void CalculateBeamLoadBearingWidths()
+        {
+            Dictionary<int, List<Beam>> floorBeams = new Dictionary<int, List<Beam>>();
+            foreach (var beam in Beams.Values)
+            {
+                if (floorBeams.ContainsKey(beam.FloorNo))
+                    floorBeams[beam.FloorNo].Add(beam);
+                else
+                    floorBeams.Add(beam.FloorNo, new List<Beam>() { beam});
+            }
+
+            foreach (var beamsByFloor in floorBeams)
+            {
+                CalculateBeamLoadBearingWidthsByFloor(beamsByFloor.Value);
+            }
+
+            
+        }
+
+        private void CalculateBeamLoadBearingWidthsByFloor(List<Beam> beams)
+        {
+            List<Line> centerLines = beams.Select(b=>b.CenterLine).ToList();
+            foreach (var beam in beams)
+            {
+                Line centerLine = beam.CenterLine;
+
+                Point3d centerPt = centerLine.From + centerLine.To / 2;
+                Vector3d v1 = Vector3d.CrossProduct(centerLine.Direction, Vector3d.ZAxis);
+                Vector3d v2 = Vector3d.CrossProduct(centerLine.Direction, -Vector3d.ZAxis);
+
+                Line l1 = new Line(centerPt, v1 * 1000000);
+                double minDistance1 = CalculateMinDistance(centerLines, centerPt, l1);
+
+                Line l2 = new Line(centerPt, v2 * 1000000);
+                double minDistance2 = CalculateMinDistance(centerLines, centerPt, l2);
+
+                beam.LoadBearingWidth  = minDistance1/2 + minDistance2/2;
+            }
+        }
+
+        private static double CalculateMinDistance(List<Line> centerLines, Point3d centerPt, Line l1)
+        {
+            double minDistance = double.MaxValue;
+            foreach (var line in centerLines)
+            {
+                if (!Intersection.LineLine(l1, line, out double a, out double b))
+                    continue;
+                if (a <= 0 || a > 1 || b < 0 || b > 1)
+                    continue;
+                Point3d intersectionPt = l1.PointAt(a);
+                double distance = (centerPt - intersectionPt).Length;
+                if (minDistance > distance)
+                    minDistance = distance;
+            }
+            if (minDistance == double.MaxValue)
+                minDistance = 0;
+            return minDistance;
+        }
     }
 }

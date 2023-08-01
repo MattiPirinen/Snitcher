@@ -23,7 +23,7 @@ namespace SnitchCommon
 
         //----------------------- PROPERTIES -------------------------
 
-        public Guid Guid { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         public double Volume_concrete_m3 { get; set; }
         public double Mass_steel_m3 { get; set; }

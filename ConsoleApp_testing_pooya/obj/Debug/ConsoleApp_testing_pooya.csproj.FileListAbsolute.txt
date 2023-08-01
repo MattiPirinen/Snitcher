@@ -23,7 +23,6 @@ C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\Newtonsoft.
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\SnitchCommon.dll
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\SnitchCommon.pdb
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\Newtonsoft.Json.xml
-C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\bin\Debug\RhinoCommon.xml
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\obj\Debug\ConsoleApp_testing_pooya.csproj.AssemblyReference.cache
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\obj\Debug\ConsoleApp_testing_pooya.csproj.SuggestedBindingRedirects.cache
 C:\Users\pima\source\repos\Snitch\ConsoleApp_testing_pooya\obj\Debug\ConsoleApp_testing_pooya.Properties.Resources.resources

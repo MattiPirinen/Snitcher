@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp_testing_pooya", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoronoiExtension", "VoronoiExtension\VoronoiExtension.csproj", "{57078AB3-74B2-4B8E-8E4B-A825BD1C8D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnitchIFC", "SnitchIFC\SnitchIFC.csproj", "{F90BB103-A674-478C-AB8C-E1E16550E557}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnitchRhinoTestProject", "SnitchRhinoTestProject\SnitchRhinoTestProject.csproj", "{44B930C7-45D8-462C-A295-85F2ACA3B79F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{57078AB3-74B2-4B8E-8E4B-A825BD1C8D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57078AB3-74B2-4B8E-8E4B-A825BD1C8D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57078AB3-74B2-4B8E-8E4B-A825BD1C8D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F90BB103-A674-478C-AB8C-E1E16550E557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F90BB103-A674-478C-AB8C-E1E16550E557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F90BB103-A674-478C-AB8C-E1E16550E557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F90BB103-A674-478C-AB8C-E1E16550E557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B930C7-45D8-462C-A295-85F2ACA3B79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B930C7-45D8-462C-A295-85F2ACA3B79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B930C7-45D8-462C-A295-85F2ACA3B79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B930C7-45D8-462C-A295-85F2ACA3B79F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

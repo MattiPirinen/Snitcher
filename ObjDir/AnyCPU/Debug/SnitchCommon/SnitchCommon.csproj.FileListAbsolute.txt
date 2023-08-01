@@ -14,13 +14,11 @@ C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\SnitchCommon.dll
 C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\SnitchCommon.pdb
 C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\DelanayClassLibrary.dll
 C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.dll
+C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.pdb
 C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\Newtonsoft.Json.xml
-C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\RhinoCommon.xml
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.AssemblyReference.cache
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.CoreCompileInputs.cache
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.csproj.CopyComplete
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.dll
 C:\Users\pima\source\repos\Snitch\ObjDir\AnyCPU\Debug\SnitchCommon\SnitchCommon.pdb
-C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\RhinoCommon.dll
-C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.dll
-C:\Users\pima\source\repos\Snitch\SnitchCommon\bin\Debug\VoronoiExtension.pdb
