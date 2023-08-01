@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Rhino;
 using Rhino.Geometry;
 using Rhino.Geometry.Intersect;
 using System;
@@ -286,14 +287,16 @@ namespace SnitchCommon
             {
                 Line centerLine = beam.CenterLine;
 
-                Point3d centerPt = centerLine.From + centerLine.To / 2;
+                Point3d centerPt = (centerLine.From + centerLine.To) / 2;
                 Vector3d v1 = Vector3d.CrossProduct(centerLine.Direction, Vector3d.ZAxis);
                 Vector3d v2 = Vector3d.CrossProduct(centerLine.Direction, -Vector3d.ZAxis);
-
-                Line l1 = new Line(centerPt, v1 * 1000000);
+                
+                Line l1 = new Line(centerPt, v1 * 5);
+                RhinoDoc.ActiveDoc.Objects.AddLine(l1);
                 double minDistance1 = CalculateMinDistance(centerLines, centerPt, l1);
 
-                Line l2 = new Line(centerPt, v2 * 1000000);
+                Line l2 = new Line(centerPt, v2 * 5);
+                RhinoDoc.ActiveDoc.Objects.AddLine(l2);
                 double minDistance2 = CalculateMinDistance(centerLines, centerPt, l2);
 
                 beam.LoadBearingWidth  = minDistance1/2 + minDistance2/2;
@@ -305,7 +308,7 @@ namespace SnitchCommon
             double minDistance = double.MaxValue;
             foreach (var line in centerLines)
             {
-                if (!Intersection.LineLine(l1, line, out double a, out double b))
+                if (!Intersection.LineLine(l1, line, out double a, out double b, 100, false))
                     continue;
                 if (a <= 0 || a > 1 || b < 0 || b > 1)
                     continue;
